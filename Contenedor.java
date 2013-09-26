@@ -20,6 +20,7 @@ public class Contenedor {
 				}
 				catch (Exception e) {
 					e.printStackTrace(System.out);
+					return false;
 				}
 			}
 			isLoad = true;
