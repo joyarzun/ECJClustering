@@ -12,6 +12,8 @@ public class Instancia{
 	private ArrayList<Punto> LSP = new ArrayList<Punto>();//Lista de secuencia de puntos
 	private ArrayList<Punto> LSP_ORI = new ArrayList<Punto>();//Lista de secuencia de puntos
 	private ArrayList<Conjunto> LCP = new ArrayList<Conjunto>();//Lista de conjuntos de puntos
+	private ArrayList<Punto> LCC = new ArrayList<Punto>();//Lista de centros de conjuntos. Contiene por cada conjunto de LCP, una coordenada que es el centro geométrico de dicho conjunto
+	private Punto CE;
 	
 	//DIVIDE LSP COMO LA TESIS DE DIB EJEMPLO 1
 	public void dividirDIB1() throws Exception{
@@ -133,16 +135,188 @@ public class Instancia{
 	}
 	
 	
+	//DIVIDE LSP EN UN CONJUNTOS PARA HACER PRUEBAS
+	public void dividirUNO() throws Exception{
+		if(isLoad){
+			Conjunto c1 = new Conjunto();
+			int counter = LSP.size();
+			for (int i = 0; i < counter; i++) {
+				c1.addPunto(LSP.get(0));
+				LSP.remove(0);
+			}
+			LCP.add(c1);
+		}
+		else throw new Exception("La instancia no esta cargada o no tiene más de dos puntos");
+		
+	}
+	
+	
+	//Toma un punto de LSP y lo inserta en el conjunto de LCP donde la distancia al punto de LCP sea la mínima
+	public Punto Add_Mindot(){
+		if(LSP.size() == 0) return null;
+		Punto p = LSP.remove(0);
+		
+		if(LCP.size() == 0){//SI NO HAY CONJUNTOS SE CREA UNO
+			Conjunto c = new Conjunto();
+			c.addPunto(p);
+			LCP.add(c);
+		}
+		else{//SI HAY ENTONCES SE INSERTA EN EL DE DISTANCIA MINIMA
+			double dis_min = Double.MAX_VALUE;
+			Conjunto con_dis_min = null;
+			for(Conjunto c : LCP){
+				double dis_aux = 0;
+				
+				try {
+					dis_aux = this.d(p, c);
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+				
+				if(dis_aux < dis_min){
+					dis_min = dis_aux;
+					con_dis_min = c;
+				}
+			}
+			
+			con_dis_min.addPunto(p);
+		}
+		
+		return p;
+	}
+	
+	//ADD_NEXTOP: Toma el punto siguiente en LSP y lo inserta en un nuevo conjunto
+	public Punto Add_Nextop(){
+		if(LSP.size() == 0) return null;
+		Punto p = LSP.remove(0);
+		
+		Conjunto c = new Conjunto();
+		c.addPunto(p);
+		LCP.add(c);
+		
+		return p;
+	}
+	
+	
+	//ADD_MINCENTER: Toma un punto de LSP y lo inserta en el conjunto LCP donde la distancia al centro del conjunto, dada por LCC, sea mínima.
+	public Punto Add_Mincenter() throws Exception {
+		if(LSP.size() == 0) return null;
+		Punto p = LSP.remove(0);
+		
+		if(LCP.size() == 0){//SI NO HAY CONJUNTOS SE CREA UNO
+			Conjunto c = new Conjunto();
+			c.addPunto(p);
+			LCP.add(c);
+		}
+		else{//SI HAY ENTONCES SE INSERTA EN EL DE DISTANCIA MINIMA
+			this.updateLCC();
+			double dis_min = Double.MAX_VALUE;
+			int index = 0;
+			for (int i = 0; i > LCC.size(); i++) {
+				if(dis_min > LCC.get(i).distancia(p)){
+					dis_min = LCC.get(i).distancia(p);
+					index = i;
+				}
+			}
+			LCP.get(index).addPunto(p);
+		}
+		
+		return p;
+	}
+	
+	
+	//ADD_MINCE: Toma un punto de LSP que esté más cercano a CE y lo inserta al conjunto más cercano a CE.
+	public Punto Add_Mince() throws Exception{
+		if(LSP.size() == 0 || !isLoad) return null;
+		
+		this.updateCE();
+		double min_dis = Double.MAX_VALUE;
+		int index = 0;
+		for(int i = 0; i < LSP.size(); i++){
+			if(LSP.get(i).distancia(CE) < min_dis){
+				min_dis = LSP.get(i).distancia(CE);
+				index = i;
+			}
+		}
+		Punto p = LSP.remove(index);
+		
+		if(LCP.size() == 0){
+			Conjunto c = new Conjunto();
+			c.addPunto(p);
+			LCP.add(c);
+		}
+		else{
+			Conjunto con_min = null;
+			min_dis = Double.MAX_VALUE;
+			for(Conjunto c : LCP){
+				if(this.d(CE, c) < min_dis){
+					min_dis = this.d(CE, c);
+					con_min = c;
+				}
+			}
+			con_min.addPunto(p);
+		}
+		
+		return p;
+	}
+	
+	
+	//ADD_MAXCE: Toma el punto de LSP que esté más lejano a CE y lo inserta al conjunto más lejano de CE
+	public Punto Add_Maxce() throws Exception{
+		if(LSP.size() == 0 || !isLoad) return null;
+		
+		this.updateCE();
+		double max_dis = 0;
+		int index = 0;
+		for(int i = 0; i < LSP.size(); i++){
+			if(LSP.get(i).distancia(CE) > max_dis){
+				max_dis = LSP.get(i).distancia(CE);
+				index = i;
+			}
+		}
+		Punto p = LSP.remove(index);
+		
+		if(LCP.size() == 0){
+			Conjunto c = new Conjunto();
+			c.addPunto(p);
+			LCP.add(c);
+		}
+		else{
+			Conjunto con_min = null;
+			max_dis = 0;
+			for(Conjunto c : LCP){
+				if(this.d(CE, c) > max_dis){
+					max_dis = this.d(CE, c);
+					con_min = c;
+				}
+			}
+			con_min.addPunto(p);
+		}
+		
+		return p;
+	}
+	
 	
 	//Si usamos 1 - s_avg(xi) se puede considerar como error ya que cuando e = 0 entonces s = 1, lo cual hace un agrupamiento perfecto.
-	public double error() throws Exception{
-		return 1 - this.s_avg();
+	public double error(){
+		double error = -1;
+		try {
+			error = 1 - this.s_avg();
+		}
+		catch (Exception e) {
+			e.printStackTrace(System.out);
+			System.exit(0);
+		}
+		return error;
 	}
 	
 	//PROMEDIO DE SILUETA EN TODA LA INSTANCIA
 	public double s_avg() throws Exception{
 		if(!this.isLoad) throw new Exception("La instancia no tiene puntos cargados");
 		if(LCP.size() == 0) throw new Exception("No hay grupos procesados");
+		//TODO: ES NECESARIO QUE LSP == 0 PARA EVALUAR EL ERROR?
 		
 		double suma = 0;
 		int count = 0;
@@ -188,10 +362,12 @@ public class Instancia{
 		return min;
 	}
 	
+	//Calcula el prom de distancia de un punto a un conjunto. El punto no debe estar en el conjunto 
 	public double d(Punto xi, Conjunto Ct) throws Exception{
 		if(!this.isLoad) throw new Exception("La instancia no tiene puntos cargados");
 		if(LCP.size() == 0) throw new Exception("No hay grupos procesados");
-		if(Ct.getConjunto().contains(xi)) throw new Exception("El Punto elegido esta en el conjunto elegido");
+		// if(Ct.getConjunto().contains(xi)) return Double.MAX_VALUE;
+		// if(Ct.getConjunto().contains(xi)) throw new Exception("El Punto elegido esta en el conjunto elegido");
 		if(Ct.getConjunto().size() == 0) throw new Exception("El conjunto no tiene elementos");
 		
 		//SI EL CONJUNTO TIENE UN ELEMENTO ENTONCES DEVUELVE 0
@@ -261,6 +437,7 @@ public class Instancia{
 				}
 				catch(IOException e){
 					e.printStackTrace(System.out);
+					System.exit(0);
 				}
 				boolean firstline = true;
 				int cant = 0;
@@ -309,6 +486,37 @@ public class Instancia{
 			LSP.clear();
 			LSP = new ArrayList<Punto>(LSP_ORI);
 		}
+	}
+	
+	public void updateLCC() throws Exception{
+		if(LCC.size() > 0) LCC.clear();
+		for(Conjunto c : LCP){
+			int count = 0;
+			Punto suma = (new Punto(dimension)).zeros();
+			for(Punto p : c.getConjunto()){
+				suma = suma.suma(p);
+				count++;
+			}
+			if(count != 0) suma = suma.dividir(count);
+			LCC.add(suma);
+		}
+	}
+	
+	public Punto updateCE() throws Exception{
+		if(isLoad){
+			this.updateLCC();
+			Punto suma = (new Punto(dimension)).zeros();
+			int count = 0;
+			for(Punto p : LCC){
+				suma = suma.suma(p);
+				count++;
+			}
+			if(count != 0) suma = suma.dividir(count);
+			this.CE = suma;
+			
+			return this.CE;
+		}
+		else return null;
 	}
 	
 	public void setFilename(String filename){

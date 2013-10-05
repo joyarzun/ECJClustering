@@ -22,7 +22,45 @@ public class Punto
 		return resultado;
 	}
 	
+	public Punto suma(Punto p1) throws Exception{
+		Punto p2 = this;
+		if(p1.componente.length == 0 || p2.componente.length == 0) throw new Exception("Esta intentando sumar un punto que no tiene componentes");
+		if(p1.componente.length != p2.componente.length) throw new Exception("Esta intentando sumar puntos con distintas dimensiones");
+		
+		double[] suma = new double[p1.componente.length];
+		for (int i = 0; i < p1.componente.length; i++) {
+			suma[i] = p1.componente[i] + p2.componente[i];
+		}
+		//EL PUNTO RESULTANTE NO TIENE SOLUCION ASOCIADA
+		return new Punto(suma);
+		
+	}
 	
+	public Punto dividir(double divisor) throws Exception{
+		Punto p1 = this;
+		if(p1.componente.length == 0) throw new Exception("Esta intentando dividir un punto que no tiene componentes");
+		if(divisor == 0) throw new Exception("Esta intentando dividir un punto por cero");
+		
+		for (int i = 0; i < p1.componente.length; i++) {
+			p1.componente[i] = p1.componente[i]/divisor;
+		}
+		
+		return p1;
+	}
+	
+	public Punto zeros(){
+		for (int i = 0; i < this.componente.length; i++) {
+			this.componente[i] = 0;
+		}
+		
+		return this;
+	}
+	
+	public Punto(double[] componentes) throws Exception{
+		if(componentes.length > 0) this.componente = componentes;
+		else throw new Exception("La dimension esta incorrecta");
+		this.hasSolution = false;
+	}
 	
 	public Punto(int dimension) throws Exception{
 		if(dimension > 0) this.componente = new double[dimension];
@@ -35,6 +73,19 @@ public class Punto
 		else throw new Exception("La dimension esta incorrecta");
 		this.grupo = grupo;
 		this.hasSolution = hasSolution;
+	}
+	
+	public String toString(){
+		String r = "";
+		if(this.componente.length > 0){
+			r += this.componente.length + ":";
+			for (int i = 0; i < this.componente.length; i++) {
+				if(i == this.componente.length - 1) r += this.componente[i];
+				else r += this.componente[i] + ",";
+			}
+		}
+		
+		return r;
 	}
 	
 	@Override

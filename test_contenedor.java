@@ -6,7 +6,7 @@ public class test_contenedor {
 		c1.load();
 		
 		for (Instancia ins : c1.instancias) {
-			for(Punto p : ins.getConjunto()){
+			for(Punto p : ins.getLSP()){
 				for (int i = 0; i < p.componente.length; i++) {
 					System.out.print(p.componente[i]+",");
 				}

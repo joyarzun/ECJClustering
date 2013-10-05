@@ -110,6 +110,27 @@ class test_instancia {
 			}
 			
 			System.out.println("ERROR: " + ins.error());
+			
+			
+			ins.recargar();
+			ins.dividirUNO();
+			System.out.println("SE DIVIDIO EN dividirUNO");
+			
+			count = 0;
+			for(Conjunto c : ins.getLCP()){
+				for(Punto p : c.getConjunto()){
+					System.out.print("C" + count + ", ");
+					System.out.print(p);
+					
+					System.out.print(", a(Xi):" + ins.a(p));
+					System.out.print(", b(Xi): " + ins.b(p));
+					System.out.println(", s(Xi): " + ins.s(p));
+				}
+				count++;
+				System.out.println(c.getConjunto().size());
+			}
+			
+			System.out.println("ERROR: " + ins.error());
 		}
 	}
 }

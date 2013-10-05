@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+
 public class Contenedor {
 	private static Contenedor INSTANCE = null;
 	private static final String INSTANCIAS_PATH = ".//dataset//";
-	private static final String[] instancias_file = {"iris.data", "ruspini.data", "vowel.data"};
+	// private static final String[] instancias_file = {"iris.data", "ruspini.data", "vowel.data"};
+	private static final String[] instancias_file = {"test.data"};
 	private static boolean isLoad = false;
 	public static ArrayList<Instancia> instancias = new ArrayList<Instancia>();
 	
