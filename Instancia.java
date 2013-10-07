@@ -165,23 +165,26 @@ public class Instancia{
 			double dis_min = Double.MAX_VALUE;
 			Conjunto con_dis_min = null;
 			for(Conjunto c : LCP){
-				double dis_aux = 0;
+				if(c.getConjunto().size() > 0){
+					double dis_aux = 0;
 				
-				try {
-					dis_aux = this.d(p, c);
-				}
-				catch (Exception e) {
-					e.printStackTrace(System.out);
-					System.exit(0);
-				}
+					try {
+						dis_aux = this.d(p, c);
+					}
+					catch (Exception e) {
+						e.printStackTrace(System.out);
+						System.exit(0);
+					}
 				
-				if(dis_aux < dis_min){
-					dis_min = dis_aux;
-					con_dis_min = c;
+					if(dis_aux < dis_min){
+						dis_min = dis_aux;
+						con_dis_min = c;
+					}
 				}
 			}
 			
-			con_dis_min.addPunto(p);
+			if(con_dis_min != null) con_dis_min.addPunto(p);
+			else return null;
 		}
 		
 		return p;
@@ -201,7 +204,7 @@ public class Instancia{
 	
 	
 	//ADD_MINCENTER: Toma un punto de LSP y lo inserta en el conjunto LCP donde la distancia al centro del conjunto, dada por LCC, sea mínima.
-	public Punto Add_Mincenter() throws Exception {
+	public Punto Add_Mincenter(){
 		if(LSP.size() == 0) return null;
 		Punto p = LSP.remove(0);
 		
@@ -215,8 +218,16 @@ public class Instancia{
 			double dis_min = Double.MAX_VALUE;
 			int index = 0;
 			for (int i = 0; i > LCC.size(); i++) {
-				if(dis_min > LCC.get(i).distancia(p)){
-					dis_min = LCC.get(i).distancia(p);
+				double dis_medida = 0;
+				try {
+					dis_medida = LCC.get(i).distancia(p);
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+				if(dis_min > dis_medida){
+					dis_min = dis_medida;
 					index = i;
 				}
 			}
@@ -228,15 +239,23 @@ public class Instancia{
 	
 	
 	//ADD_MINCE: Toma un punto de LSP que esté más cercano a CE y lo inserta al conjunto más cercano a CE.
-	public Punto Add_Mince() throws Exception{
+	public Punto Add_Mince(){
 		if(LSP.size() == 0 || !isLoad) return null;
 		
 		this.updateCE();
 		double min_dis = Double.MAX_VALUE;
 		int index = 0;
 		for(int i = 0; i < LSP.size(); i++){
-			if(LSP.get(i).distancia(CE) < min_dis){
-				min_dis = LSP.get(i).distancia(CE);
+			double dis_medida = 0;
+			try {
+				dis_medida = LSP.get(i).distancia(CE);
+			}
+			catch (Exception e) {
+				e.printStackTrace(System.out);
+				System.exit(0);
+			}
+			if(dis_medida < min_dis){
+				min_dis = dis_medida;
 				index = i;
 			}
 		}
@@ -251,12 +270,23 @@ public class Instancia{
 			Conjunto con_min = null;
 			min_dis = Double.MAX_VALUE;
 			for(Conjunto c : LCP){
-				if(this.d(CE, c) < min_dis){
-					min_dis = this.d(CE, c);
-					con_min = c;
+				if(c.getConjunto().size() > 0){
+					double dis_medida = 0;
+					try {
+						dis_medida = this.d(CE, c);
+					}
+					catch (Exception e) {
+						e.printStackTrace(System.out);
+						System.exit(0);
+					}
+					if(dis_medida < min_dis){
+						min_dis = dis_medida;
+						con_min = c;
+					}
 				}
 			}
-			con_min.addPunto(p);
+			if(con_min != null) con_min.addPunto(p);
+			else return null;
 		}
 		
 		return p;
@@ -264,15 +294,24 @@ public class Instancia{
 	
 	
 	//ADD_MAXCE: Toma el punto de LSP que esté más lejano a CE y lo inserta al conjunto más lejano de CE
-	public Punto Add_Maxce() throws Exception{
+	public Punto Add_Maxce(){
 		if(LSP.size() == 0 || !isLoad) return null;
 		
 		this.updateCE();
 		double max_dis = 0;
 		int index = 0;
 		for(int i = 0; i < LSP.size(); i++){
-			if(LSP.get(i).distancia(CE) > max_dis){
-				max_dis = LSP.get(i).distancia(CE);
+			double dis_medida = 0;
+			try {
+				dis_medida = LSP.get(i).distancia(CE);
+			}
+			catch (Exception e) {
+				e.printStackTrace(System.out);
+				System.exit(0);
+			}
+			
+			if(dis_medida > max_dis){
+				max_dis = dis_medida;
 				index = i;
 			}
 		}
@@ -287,15 +326,76 @@ public class Instancia{
 			Conjunto con_min = null;
 			max_dis = 0;
 			for(Conjunto c : LCP){
-				if(this.d(CE, c) > max_dis){
-					max_dis = this.d(CE, c);
-					con_min = c;
+				if(c.getConjunto().size() > 0){
+					double dis_medida = 0;
+					try {
+						dis_medida = this.d(CE, c);
+					}
+					catch (Exception e) {
+						e.printStackTrace(System.out);
+						System.exit(0);
+					}
+					
+					if(dis_medida > max_dis){
+						max_dis = dis_medida;
+						con_min = c;
+					}
 				}
 			}
-			con_min.addPunto(p);
+			if(con_min != null) con_min.addPunto(p);
+			else return null;
 		}
 		
 		return p;
+	}
+	
+	//Crea un conjunto vacío. Si hay más de X conjuntos vacios se podria evitar esta operación.
+	public void Create_Cp(){
+		if(!isLoad) return;
+		
+		if(LCP.size() <= 50){
+			Conjunto c = new Conjunto();
+			LCP.add(c);
+		}
+		
+	}
+	
+	
+	//JOIN_CP: Une conjuntos cercanos. Sus centros LCC tienen distancia minima.
+	public void Join_Cp(){
+		updateLCC();
+		if(LCC.size() < 2) return;
+		
+		double dis = Double.MAX_VALUE;
+		int p1 = -1;
+		int p2 = -1;
+		for (int i = 0; i < LCC.size()-1; i++) {
+			for(int u = i+1; u < LCC.size(); u++){
+				double dis_medida = 0;
+				try {
+					dis_medida = LCC.get(i).distancia(LCC.get(u));
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+				
+				if(dis_medida < dis){
+					dis = dis_medida;
+					p1 = i;
+					p2 = u;
+				}
+			}
+		}
+		
+		if(dis != Double.MAX_VALUE){
+			try {
+				joinCP(p1,p2);
+			}
+			catch (Exception e) {
+				return;
+			}
+		}
 	}
 	
 	
@@ -306,8 +406,9 @@ public class Instancia{
 			error = 1 - this.s_avg();
 		}
 		catch (Exception e) {
-			e.printStackTrace(System.out);
-			System.exit(0);
+			return 3;
+			// e.printStackTrace(System.out);
+			// System.exit(0);
 		}
 		return error;
 	}
@@ -488,35 +589,95 @@ public class Instancia{
 		}
 	}
 	
-	public void updateLCC() throws Exception{
+	public void updateLCC(){
 		if(LCC.size() > 0) LCC.clear();
 		for(Conjunto c : LCP){
 			int count = 0;
-			Punto suma = (new Punto(dimension)).zeros();
+			Punto suma = null;
+			
+			try {
+				suma = (new Punto(dimension)).zeros();
+			}
+			catch (Exception e) {
+				return;
+			}
+			
 			for(Punto p : c.getConjunto()){
-				suma = suma.suma(p);
+				try {
+					suma = suma.suma(p);
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+				
 				count++;
 			}
-			if(count != 0) suma = suma.dividir(count);
+			if(count != 0){
+				try {
+					suma = suma.dividir(count);
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+			}
 			LCC.add(suma);
 		}
 	}
 	
-	public Punto updateCE() throws Exception{
+	public Punto updateCE(){
 		if(isLoad){
 			this.updateLCC();
-			Punto suma = (new Punto(dimension)).zeros();
+			Punto suma = null;
+			
+			try {
+				suma = (new Punto(dimension)).zeros();
+			}
+			catch (Exception e) {
+				return null;
+			}
+			
 			int count = 0;
 			for(Punto p : LCC){
-				suma = suma.suma(p);
+				try {
+					suma = suma.suma(p);
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+				
 				count++;
 			}
-			if(count != 0) suma = suma.dividir(count);
+			if(count != 0){
+				try {
+					suma = suma.dividir(count);
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+			}
+			
 			this.CE = suma;
 			
 			return this.CE;
 		}
 		else return null;
+	}
+	
+	//UNE CONJUNTOS
+	private void joinCP(int p1, int p2) throws Exception{
+		if(p1 < 0 || p1 > LCP.size()-1) new Exception("p1 esta fuera de rango");
+		if(p2 < 0 || p2 > LCP.size()-1) new Exception("p2 esta fuera de rango");
+		if(p1 == p2) new Exception("p1 y p2 son iguales");
+		
+		for(Punto p : LCP.get(p2).getConjunto()){
+			if(!LCP.get(p1).getConjunto().contains(p)) LCP.get(p1).addPunto(p);
+		}
+		
+		LCP.remove(p2);
 	}
 	
 	public void setFilename(String filename){

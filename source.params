@@ -14,23 +14,30 @@ gp.fs.0 = ec.gp.GPFunctionSet
 gp.fs.0.name = f0
 
 # We have five functions in the function set.  They are:
-gp.fs.0.size = 8
+gp.fs.0.size = 11
 gp.fs.0.func.0 = Add_Mince
 gp.fs.0.func.0.nc = nc0
 gp.fs.0.func.1 = Add_Mincenter
 gp.fs.0.func.1.nc = nc0
 gp.fs.0.func.2 = Add_Mindot
 gp.fs.0.func.2.nc = nc0
-gp.fs.0.func.3 = And
-gp.fs.0.func.3.nc = nc2
-gp.fs.0.func.4 = If
-gp.fs.0.func.4.nc = nc2
-gp.fs.0.func.5 = Not
-gp.fs.0.func.5.nc = nc1
-gp.fs.0.func.6 = Or
+gp.fs.0.func.3 = Add_Maxce
+gp.fs.0.func.3.nc = nc0
+gp.fs.0.func.4 = Create_Cp
+gp.fs.0.func.4.nc = nc0
+gp.fs.0.func.5 = Join_Cp
+gp.fs.0.func.5.nc = nc0
+
+gp.fs.0.func.6 = And
 gp.fs.0.func.6.nc = nc2
-gp.fs.0.func.7 = While
+gp.fs.0.func.7 = If
 gp.fs.0.func.7.nc = nc2
+gp.fs.0.func.8 = Not
+gp.fs.0.func.8.nc = nc1
+gp.fs.0.func.9 = Or
+gp.fs.0.func.9.nc = nc2
+gp.fs.0.func.10 = While
+gp.fs.0.func.10.nc = nc2
 
 eval.problem = MyProblem
 eval.problem.data = MyGPData
