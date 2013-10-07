@@ -10,13 +10,7 @@ public class Join_Cp extends GPNode {
     public void eval(final EvolutionState state, final int thread, final GPData input, final ADFStack stack, final GPIndividual individual, final Problem problem) {
     	MyGPData d = ((MyGPData)(input));
 		
-		try {
-			((MyProblem)problem).instancia.Join_Cp();
-		}
-		catch (Exception e) {
-			e.printStackTrace(System.out);
-			System.exit(0);
-		}
+		((MyProblem)problem).instancia.Join_Cp();
 		
 		d.punto = null;
 		d.condicion = true;

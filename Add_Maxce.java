@@ -10,13 +10,7 @@ public class Add_Maxce extends GPNode {
     public void eval(final EvolutionState state, final int thread, final GPData input, final ADFStack stack, final GPIndividual individual, final Problem problem) {
     	MyGPData d = ((MyGPData)(input));
 		Punto punto_maxce = null;
-		try {
-			punto_maxce = ((MyProblem)problem).instancia.Add_Maxce();
-		}
-		catch (Exception e) {
-			e.printStackTrace(System.out);
-			System.exit(0);
-		}
+		punto_maxce = ((MyProblem)problem).instancia.Add_Maxce();
 		
 		d.punto = punto_maxce;
 		d.condicion = (d.punto != null);

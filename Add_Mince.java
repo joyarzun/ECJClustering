@@ -10,13 +10,7 @@ public class Add_Mince extends GPNode {
     public void eval(final EvolutionState state, final int thread, final GPData input, final ADFStack stack, final GPIndividual individual, final Problem problem) {
     	MyGPData d = ((MyGPData)(input));
 		Punto punto_mince = null;
-		try {
-			punto_mince = ((MyProblem)problem).instancia.Add_Mince();
-		}
-		catch (Exception e) {
-			e.printStackTrace(System.out);
-			System.exit(0);
-		}
+		punto_mince = ((MyProblem)problem).instancia.Add_Mince();
 		
 		d.punto = punto_mince;
 		d.condicion = (d.punto != null);

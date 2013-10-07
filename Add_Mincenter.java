@@ -11,13 +11,7 @@ public class Add_Mincenter extends GPNode {
     	MyGPData d = ((MyGPData)(input));
 		
 		Punto punto_mincenter = null;
-		try {
-			punto_mincenter = ((MyProblem)problem).instancia.Add_Mincenter();
-		}
-		catch (Exception e) {
-			e.printStackTrace(System.out);
-			System.exit(0);
-		}
+		punto_mincenter = ((MyProblem)problem).instancia.Add_Mincenter();
 		 
 		d.punto = punto_mincenter;
 		d.condicion = (d.punto != null);
