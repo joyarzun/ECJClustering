@@ -32,7 +32,7 @@ public class While extends GPNode{
 	        children[1].eval(state,thread,input,stack,individual,myproblem);
 			done = true;
 			
-			double error = myproblem.instancia.error();
+			double error = myproblem.instancia.fitness();
 			//SI EL ERROR NO CAMBIA
 			if (Math.abs(error - erroranterior) <= 1e-6){
 				counter++;

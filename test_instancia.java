@@ -3,7 +3,7 @@ class test_instancia {
 		String[] instancias = {"test.data"};
 		// String[] instancias = {"iris.data", "ruspini.data", "vowel.data"};
 		for (int a=0; a < instancias.length; a++) {
-			Instancia ins = new Instancia(".//dataset//", instancias[a]);
+			Instancia ins = new Instancia(".//dataset//", instancias[a], 0.5, 0.5);
 			try{
 				ins.load();
 			}
@@ -45,7 +45,7 @@ class test_instancia {
 				count++;
 			}
 			
-			System.out.println("ERROR: " + ins.error());
+			System.out.println("ERROR: " + ins.fitness());
 			
 			ins.recargar();
 			ins.dividirDIB2();
@@ -66,7 +66,7 @@ class test_instancia {
 				count++;
 			}
 			
-			System.out.println("ERROR: " + ins.error());
+			System.out.println("ERROR: " + ins.fitness());
 			
 			ins.recargar();
 			ins.dividirDIB3();
@@ -87,7 +87,7 @@ class test_instancia {
 				count++;
 			}
 			
-			System.out.println("ERROR: " + ins.error());
+			System.out.println("ERROR: " + ins.fitness());
 			
 			
 			ins.recargar();
@@ -109,7 +109,7 @@ class test_instancia {
 				count++;
 			}
 			
-			System.out.println("ERROR: " + ins.error());
+			System.out.println("ERROR: " + ins.fitness());
 			
 			
 			ins.recargar();
@@ -130,7 +130,7 @@ class test_instancia {
 				System.out.println(c.getConjunto().size());
 			}
 			
-			System.out.println("ERROR: " + ins.error());
+			System.out.println("ERROR: " + ins.fitness());
 		}
 	}
 }

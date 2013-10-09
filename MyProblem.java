@@ -37,15 +37,15 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 			
 			for(Instancia i : contenedor.instancias){
 				instancia = i;
+				instancia.recargar();
                 ((GPIndividual)ind).trees[0].child.eval(state,threadnum,input,stack,((GPIndividual)ind),this);
-				result = instancia.error();
+				result = instancia.fitness();
 				//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES MAX
 				if(instancia.getLCP().size() == 1) result = 2;
 				//HIT
 				if (result <= 0.01) hits++;
 				sum += result;
 			}
-			
 			// the fitness better be KozaFitness!
             KozaFitness f = ((KozaFitness)ind.fitness);
             f.setStandardizedFitness(state,(float)sum);
@@ -56,17 +56,20 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 	
 	public void describe(EvolutionState state, Individual ind, int subpopulation,int threadnum, int log){
 		state.output.println("****** Conjuntos " + contenedor.instancias.get(0).getLCP().size(), 0);
+		state.output.println("****** errores " + contenedor.cantidaderrores, 0);
+		int count = 0;
 		for(Conjunto c : contenedor.instancias.get(0).getLCP()){
 			for(Punto p : c.getConjunto()){
-				state.output.println(p.toString(), 0);
+				state.output.println("C"+count + " " + p.toString(), 0);
 			}
-			
+			count++;
 		}
 	}
 	
 	// public void finishEvaluating(EvolutionState state, int thread){
-	// 	this.counter++;
-	// 	state.output.println("***********finishEvaluating " + this.counter, 0);
-	// 	
-	// }
+// 		Contenedor c = Contenedor.getInstance();
+// 		
+// 		state.output.println("***********finishEvaluating " + c.test, 0);
+// 		c.test++;
+// 	}
 }

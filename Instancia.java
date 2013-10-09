@@ -9,6 +9,8 @@ public class Instancia{
 	private boolean isLoad;
 	private boolean hasSolution;
 	private int dimension;
+	private double alfa;
+	private double beta;
 	private ArrayList<Punto> LSP = new ArrayList<Punto>();//Lista de secuencia de puntos
 	private ArrayList<Punto> LSP_ORI = new ArrayList<Punto>();//Lista de secuencia de puntos
 	private ArrayList<Conjunto> LCP = new ArrayList<Conjunto>();//Lista de conjuntos de puntos
@@ -349,15 +351,16 @@ public class Instancia{
 		return p;
 	}
 	
-	//Crea un conjunto vacío. Si hay más de X conjuntos vacios se podria evitar esta operación.
+	//Crea un conjunto con un punto de LSP. Si hay más de X conjuntos vacios se podria evitar esta operación.
 	public void Create_Cp(){
 		if(!isLoad) return;
 		
-		if(LCP.size() <= 50){
+		if(LCP.size() <= 30){
 			Conjunto c = new Conjunto();
+			if(LSP.size() > 0) c.addPunto(LSP.remove(0));
+			else return;
 			LCP.add(c);
 		}
-		
 	}
 	
 	
@@ -398,19 +401,79 @@ public class Instancia{
 		}
 	}
 	
+	//MOVE_MIN: Se eligen dos conjunto (A, B), donde su LCC es mínima, se elige un punto de A tal que la distancia del punto al CC de B sea mínima. El punto se mueve al otro conjunto (B). Si el conjunto A queda vacío, se elimina.
+	public void Move_Min(){
+		updateLCC();
+		if(LCC.size() < 2) return;
+		
+		double dis = Double.MAX_VALUE;
+		int p1 = -1;
+		int p2 = -1;
+		for (int i = 0; i < LCC.size()-1; i++) {
+			for(int u = i+1; u < LCC.size(); u++){
+				double dis_medida = 0;
+				try {
+					dis_medida = LCC.get(i).distancia(LCC.get(u));
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+				
+				if(dis_medida < dis){
+					dis = dis_medida;
+					p1 = i;
+					p2 = u;
+				}
+			}
+		}
+		
+		//SE ELIGE EL PUNTO DE p1 QUE ESTA MAS CERCANO AL CC DE p2 Y SE MUEVE A p2 
+		if(dis != Double.MAX_VALUE){
+			dis = Double.MAX_VALUE;
+			Punto p_move = null;
+			
+			for(Punto p : LCP.get(p1).getConjunto()){
+				double dis_medida = 0;
+				try {
+					dis_medida = p.distancia(LCC.get(p2));
+				}
+				catch (Exception e) {
+					e.printStackTrace(System.out);
+					System.exit(0);
+				}
+				
+				if(dis_medida < dis){
+					dis = dis_medida;
+					p_move = p;
+				}
+			}
+			
+			moveDot(p_move, LCP.get(p1), LCP.get(p2));
+		}
+	}
+	
 	
 	//Si usamos 1 - s_avg(xi) se puede considerar como error ya que cuando e = 0 entonces s = 1, lo cual hace un agrupamiento perfecto.
-	public double error(){
-		double error = -1;
+	public double fitness(){
+		double fitness = 10;
 		try {
-			error = 1 - this.s_avg();
+			double error = 1 - this.s_avg();
+			double no_agrupados = 10;
+			if(LSP_ORI.size() != 0){
+				no_agrupados = LSP.size();
+				no_agrupados = no_agrupados*(LSP.size()/LSP_ORI.size());
+			}
+			fitness = error*alfa + no_agrupados*beta;
 		}
 		catch (Exception e) {
+			Contenedor.getInstance().cantidaderrores++;
 			return 3;
+			
 			// e.printStackTrace(System.out);
 			// System.exit(0);
 		}
-		return error;
+		return fitness;
 	}
 	
 	//PROMEDIO DE SILUETA EN TODA LA INSTANCIA
@@ -440,6 +503,7 @@ public class Instancia{
 		double a = this.a(xi);
 		double b = this.b(xi);
 		double max_ab = Math.max(a, b);
+		if(max_ab == 0) throw new Exception("Silueta: a y b no pueden ser cero al mismo tiempo");
 		return (b - a)/max_ab;
 	}
 	
@@ -523,9 +587,12 @@ public class Instancia{
 		isLoad = false;
 	}
 	
-	public Instancia(String path, String filename){
+	public Instancia(String path, String filename, double alfa, double beta) throws Exception{
 		this.filename = filename;
 		this.path = path;
+		this.alfa = alfa;
+		this.beta = beta;
+		if(this.alfa + this.beta != 1) throw new Exception("ALFA o BETA estan mal");
 		isLoad = false;
 	}
 	
@@ -678,6 +745,13 @@ public class Instancia{
 		}
 		
 		LCP.remove(p2);
+	}
+	
+	//MUEVE UN PUNTO DESDE UN CONJUNTO A OTRO. SI EL CONJUNTO QUEDA VACIO SE ELIMINA
+	private void moveDot(Punto punto, Conjunto c_desde, Conjunto c_hasta){
+		c_hasta.addPunto(punto);
+		c_desde.getConjunto().remove(punto);
+		if(c_desde.getConjunto().size() == 0) LCP.remove(c_desde);
 	}
 	
 	public void setFilename(String filename){

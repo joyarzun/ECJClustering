@@ -7,6 +7,9 @@ public class Contenedor {
 	private static final String[] instancias_file = {"test.data"};
 	private static boolean isLoad = false;
 	public static ArrayList<Instancia> instancias = new ArrayList<Instancia>();
+	public static int cantidaderrores = 0;
+	public static final double alfa = 0.5;
+	public static final double beta = 0.5;
 	
 	public static boolean isLoad(){
 		return isLoad;
@@ -16,8 +19,8 @@ public class Contenedor {
 	public static boolean load(){
 		if(!isLoad){
 			for (int a=0; a < instancias_file.length; a++) {
-				Instancia ins = new Instancia(INSTANCIAS_PATH, instancias_file[a]);
 				try{
+					Instancia ins = new Instancia(INSTANCIAS_PATH, instancias_file[a], alfa, beta);
 					ins.load();
 					instancias.add(ins);
 				}
