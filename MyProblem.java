@@ -40,6 +40,7 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 				instancia.recargar();
                 ((GPIndividual)ind).trees[0].child.eval(state,threadnum,input,stack,((GPIndividual)ind),this);
 				result = instancia.fitness();
+				
 				//HIT
 				if (result <= 0.01) hits++;
 				sum += result;
@@ -53,10 +54,11 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
     }
 	
 	public void describe(EvolutionState state, Individual ind, int subpopulation,int threadnum, int log){
-		state.output.println("****** Conjuntos " + contenedor.instancias.get(0).getLCP().size(), 0);
+		state.output.println("****** Conjuntos " + contenedor.instancias.get(0).mejorLCP.size(), 0);
 		state.output.println("****** errores " + contenedor.cantidaderrores, 0);
+		state.output.println("MEJOR FIT: " + contenedor.instancias.get(0).mejorfitness, 0);
 		int count = 0;
-		for(Conjunto c : contenedor.instancias.get(0).getLCP()){
+		for(Conjunto c : contenedor.instancias.get(0).mejorLCP){
 			for(Punto p : c.getConjunto()){
 				state.output.println("C"+count + " " + p.toString(), 0);
 			}

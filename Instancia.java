@@ -17,6 +17,9 @@ public class Instancia{
 	private ArrayList<Punto> LCC = new ArrayList<Punto>();//Lista de centros de conjuntos. Contiene por cada conjunto de LCP, una coordenada que es el centro geométrico de dicho conjunto
 	private Punto CE;
 	
+	public double mejorfitness = Double.MAX_VALUE;
+	public ArrayList<Conjunto> mejorLCP = new ArrayList<Conjunto>();
+	
 	//DIVIDE LSP COMO LA TESIS DE DIB EJEMPLO 1
 	public void dividirDIB1() throws Exception{
 		Conjunto c1 = new Conjunto();
@@ -458,12 +461,14 @@ public class Instancia{
 	public double fitness(){
 		double fitness = 1;
 		try {
+			//CALCULA INDICE SILUETA
 			double error = (1 - this.s_avg())/2;
+			//SI NO LOS AGRUPA TODOS
 			double no_agrupados = 1;
 			if(LSP_ORI.size() != 0){
 				no_agrupados = LSP.size()/LSP_ORI.size();
 			}
-			//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES MAX
+			//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES 5
 			if(LCP.size() != 1) fitness = error*alfa + no_agrupados*beta;
 			else fitness = 5;
 		}
@@ -473,6 +478,11 @@ public class Instancia{
 			
 			// e.printStackTrace(System.out);
 			// System.exit(0);
+		}
+		if(mejorfitness > fitness){
+			mejorfitness = fitness;
+			mejorLCP.clear();
+			mejorLCP = new ArrayList<Conjunto>(LCP);
 		}
 		return fitness;
 	}
