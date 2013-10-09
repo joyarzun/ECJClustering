@@ -456,19 +456,20 @@ public class Instancia{
 	
 	//Si usamos 1 - s_avg(xi) se puede considerar como error ya que cuando e = 0 entonces s = 1, lo cual hace un agrupamiento perfecto.
 	public double fitness(){
-		double fitness = 10;
+		double fitness = 1;
 		try {
-			double error = 1 - this.s_avg();
-			double no_agrupados = 10;
+			double error = (1 - this.s_avg())/2;
+			double no_agrupados = 1;
 			if(LSP_ORI.size() != 0){
-				no_agrupados = LSP.size();
-				no_agrupados = no_agrupados*(LSP.size()/LSP_ORI.size());
+				no_agrupados = LSP.size()/LSP_ORI.size();
 			}
-			fitness = error*alfa + no_agrupados*beta;
+			//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES MAX
+			if(LCP.size() != 1) fitness = error*alfa + no_agrupados*beta;
+			else fitness = 5;
 		}
 		catch (Exception e) {
 			Contenedor.getInstance().cantidaderrores++;
-			return 3;
+			return 10;
 			
 			// e.printStackTrace(System.out);
 			// System.exit(0);

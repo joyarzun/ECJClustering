@@ -40,8 +40,6 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 				instancia.recargar();
                 ((GPIndividual)ind).trees[0].child.eval(state,threadnum,input,stack,((GPIndividual)ind),this);
 				result = instancia.fitness();
-				//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES MAX
-				if(instancia.getLCP().size() == 1) result = 2;
 				//HIT
 				if (result <= 0.01) hits++;
 				sum += result;
