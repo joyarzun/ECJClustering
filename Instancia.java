@@ -18,7 +18,8 @@ public class Instancia{
 	private Punto CE;
 	
 	public double mejorfitness = Double.MAX_VALUE;
-	public ArrayList<Conjunto> mejorLCP = new ArrayList<Conjunto>();
+	public ArrayList<Conjunto> mejorLCP;
+	public ArrayList<Punto> quedaLSP;
 	
 	//DIVIDE LSP COMO LA TESIS DE DIB EJEMPLO 1
 	public void dividirDIB1() throws Exception{
@@ -458,7 +459,7 @@ public class Instancia{
 	
 	
 	//Si usamos 1 - s_avg(xi) se puede considerar como error ya que cuando e = 0 entonces s = 1, lo cual hace un agrupamiento perfecto.
-	public double fitness(){
+	public synchronized double fitness(){
 		double fitness = 1;
 		try {
 			//CALCULA INDICE SILUETA
@@ -481,8 +482,8 @@ public class Instancia{
 		}
 		if(mejorfitness > fitness){
 			mejorfitness = fitness;
-			mejorLCP.clear();
 			mejorLCP = new ArrayList<Conjunto>(LCP);
+			quedaLSP = new ArrayList<Punto>(LSP);
 		}
 		return fitness;
 	}
@@ -607,7 +608,7 @@ public class Instancia{
 		isLoad = false;
 	}
 	
-	public boolean load() throws Exception{
+	public synchronized boolean load() throws Exception{
 		if(!isLoad){
 			if(filename != null && path != null){
 				Scanner scanner = null;
@@ -659,7 +660,7 @@ public class Instancia{
 		else return isLoad;
 	}
 	
-	public void recargar(){
+	public synchronized void recargar(){
 		if(isLoad){
 			LCP.clear();
 			LSP.clear();

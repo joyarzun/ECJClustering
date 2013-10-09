@@ -57,6 +57,7 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 		state.output.println("****** Conjuntos " + contenedor.instancias.get(0).mejorLCP.size(), 0);
 		state.output.println("****** errores " + contenedor.cantidaderrores, 0);
 		state.output.println("MEJOR FIT: " + contenedor.instancias.get(0).mejorfitness, 0);
+		
 		int count = 0;
 		for(Conjunto c : contenedor.instancias.get(0).mejorLCP){
 			for(Punto p : c.getConjunto()){
@@ -64,6 +65,13 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 			}
 			count++;
 		}
+		
+		state.output.println("quedaLSP: " + contenedor.instancias.get(0).quedaLSP.size(), 0);
+		for(Punto p : contenedor.instancias.get(0).quedaLSP){
+			state.output.println("QUEDA " + p.toString(), 0);
+		}
+		
+		state.output.println("load " + contenedor.numload, 0);
 	}
 	
 	// public void finishEvaluating(EvolutionState state, int thread){
