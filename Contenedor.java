@@ -10,7 +10,6 @@ public class Contenedor {
 	public static int cantidaderrores = 0;
 	public static final double alfa = 0.5;
 	public static final double beta = 0.5;
-	public static int numload = 0;
 	
 	public static boolean isLoad(){
 		return isLoad;

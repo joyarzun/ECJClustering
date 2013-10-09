@@ -70,8 +70,6 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 		for(Punto p : contenedor.instancias.get(0).quedaLSP){
 			state.output.println("QUEDA " + p.toString(), 0);
 		}
-		
-		state.output.println("load " + contenedor.numload, 0);
 	}
 	
 	// public void finishEvaluating(EvolutionState state, int thread){
