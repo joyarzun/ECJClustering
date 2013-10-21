@@ -120,7 +120,9 @@ public class Punto
 	}
 	
 	public Punto copy() throws Exception{
-		Punto copia = new Punto(this.componente.length, this.grupo, this.hasSolution);
+		Punto copia = null;
+		if(this.componente == null) return copia;
+		copia = new Punto(this.componente.length, this.grupo, this.hasSolution);
 		for (int i = 0; i < this.componente.length; i++) {
 			copia.componente[i] = this.componente[i];
 		}

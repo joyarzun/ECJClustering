@@ -1,8 +1,13 @@
 import ec.*;
 import ec.gp.*;
-import ec.util.*;
 
 public class While extends GPNode{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4002771103570543933L;
+
+
 	public String toString() { return "While"; }
 	
 	
@@ -25,9 +30,11 @@ public class While extends GPNode{
 		
         int counter = 0;
         boolean done = false;
-		double erroranterior = 2;
+		double erroranterior = Double.MAX_VALUE;
+		int counterwhile = 0;
+		int counterwhilemax = myproblem.instancia.getLSP_ORI().size()*2;
 		
-		while(condicion(state, thread, input, stack, individual, myproblem) && myproblem.instancia.getLSP().size() > 0){
+		while(condicion(state, thread, input, stack, individual, myproblem) && counterwhilemax > counterwhile){
 			//We evaluate our right children.
 	        children[1].eval(state,thread,input,stack,individual,myproblem);
 			done = true;
@@ -41,6 +48,7 @@ public class While extends GPNode{
 			else counter = 0;
 			
 			erroranterior = error;
+			counterwhile++;
 		}
 		
 

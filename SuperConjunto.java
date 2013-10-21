@@ -1,25 +1,28 @@
 import java.util.ArrayList;
 
-public class Conjunto extends ArrayList<Punto>
-{
+class SuperConjunto extends ArrayList<Conjunto>{
 	public boolean isChange = true;
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5014696924540648765L;
-	
-	public Conjunto(Conjunto conjuntoCopia) {
-		super(conjuntoCopia);
+	private static final long serialVersionUID = 3944066636104704591L;
+
+	public SuperConjunto(SuperConjunto superConjunto) {
+		super(superConjunto);
 	}
 
-	public Conjunto() {
+	public SuperConjunto() {
 		super();
 	}
 
-	public String toString() {
+	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		for(Punto p : this){
-			sb.append(p.toString()).append("\n");
+		int count = 0;
+		for(Conjunto c : this){
+			sb.append("C").append(count).append("\n");
+			sb.append(c.toString()).append("\n");
+			count++;
 		}
 		return sb.toString();
 	}
@@ -28,7 +31,7 @@ public class Conjunto extends ArrayList<Punto>
 	 * @see java.util.ArrayList#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add(Punto e) {
+	public boolean add(Conjunto e) {
 		isChange = true;
 		return super.add(e);
 	}
@@ -37,7 +40,7 @@ public class Conjunto extends ArrayList<Punto>
 	 * @see java.util.ArrayList#remove(int)
 	 */
 	@Override
-	public Punto remove(int index) {
+	public Conjunto remove(int index) {
 		isChange = true;
 		return super.remove(index);
 	}
@@ -73,7 +76,7 @@ public class Conjunto extends ArrayList<Punto>
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Conjunto other = (Conjunto) obj;
+		SuperConjunto other = (SuperConjunto) obj;
 		if (isChange != other.isChange)
 			return false;
 		return true;

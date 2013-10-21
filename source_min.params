@@ -15,9 +15,11 @@ gp.fs.0.name = f0
 
 
 # parametros
-generations = 101
-pop.subpop.0.size = 2048
-
+generations = 51
+pop.subpop.0.size = 1024
+breedthreads = autoevalthreads = auto
+#seed.0 = 123
+#seed.1 = 1234
 
 # We have five functions in the function set.  They are:
 gp.fs.0.size = 9

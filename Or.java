@@ -1,8 +1,13 @@
 import ec.*;
 import ec.gp.*;
-import ec.util.*;
 
 public class Or extends GPNode{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4456947833828449749L;
+
+
 	public String toString() { return "Or"; }
 	
 	

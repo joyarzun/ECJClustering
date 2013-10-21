@@ -1,8 +1,13 @@
 import ec.*;
 import ec.gp.*;
-import ec.util.*;
 
 public class Not extends GPNode{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8441276216331510235L;
+
+
 	public String toString() { return "Not"; }
 	
 	

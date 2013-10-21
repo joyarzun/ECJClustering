@@ -1,9 +1,9 @@
 import java.util.Scanner;
 import java.io.*;
-import java.util.ArrayList;
 import java.lang.Math;
 
-public class Instancia{
+
+public class Instancia implements Cloneable{
 	private String filename;
 	private String path;
 	private boolean isLoad;
@@ -11,167 +11,29 @@ public class Instancia{
 	private int dimension;
 	private double alfa;
 	private double beta;
-	private ArrayList<Punto> LSP = new ArrayList<Punto>();//Lista de secuencia de puntos
-	private ArrayList<Punto> LSP_ORI = new ArrayList<Punto>();//Lista de secuencia de puntos
-	private ArrayList<Conjunto> LCP = new ArrayList<Conjunto>();//Lista de conjuntos de puntos
-	private ArrayList<Punto> LCC = new ArrayList<Punto>();//Lista de centros de conjuntos. Contiene por cada conjunto de LCP, una coordenada que es el centro geométrico de dicho conjunto
+	private Conjunto LSP = new Conjunto();//Lista de secuencia de puntos
+	private Conjunto LSP_ORI = new Conjunto();//Lista de secuencia de puntos
+	private SuperConjunto LCP = new SuperConjunto();//Lista de conjuntos de puntos
+	private Conjunto LCC = new Conjunto();//Lista de centros de conjuntos. Contiene por cada conjunto de LCP, una coordenada que es el centro geométrico de dicho conjunto
 	private Punto CE;
 	
-	public double mejorfitness = Double.MAX_VALUE;
-	public ArrayList<Conjunto> mejorLCP;
-	public ArrayList<Punto> quedaLSP;
-	
-	//DIVIDE LSP COMO LA TESIS DE DIB EJEMPLO 1
-	public void dividirDIB1() throws Exception{
-		Conjunto c1 = new Conjunto();
-		Conjunto c2 = new Conjunto();
-		Conjunto c3 = new Conjunto();
-		Conjunto c4 = new Conjunto();
-		Conjunto c5 = new Conjunto();
-		
-		c1.addPunto(LSP.remove(0));
-		c1.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c4.addPunto(LSP.remove(0));
-		c4.addPunto(LSP.remove(0));
-		c5.addPunto(LSP.remove(0));
-		c5.addPunto(LSP.remove(0));
-		
-		LCP.add(c1);
-		LCP.add(c2);
-		LCP.add(c3);
-		LCP.add(c4);
-		LCP.add(c5);
-	}
-	
-	//DIVIDE LSP COMO LA TESIS DE DIB EJEMPLO 2
-	public void dividirDIB2() throws Exception{
-		Conjunto c1 = new Conjunto();
-		Conjunto c2 = new Conjunto();
-		Conjunto c3 = new Conjunto();
-		Conjunto c4 = new Conjunto();
-		
-		c1.addPunto(LSP.remove(0));
-		c1.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c4.addPunto(LSP.remove(0));
-		c4.addPunto(LSP.remove(0));
-		c4.addPunto(LSP.remove(0));
-		c4.addPunto(LSP.remove(0));
-		
-		LCP.add(c1);
-		LCP.add(c2);
-		LCP.add(c3);
-		LCP.add(c4);
-	}
-	
-	
-	//DIVIDE LSP COMO LA TESIS DE DIB EJEMPLO 3
-	public void dividirDIB3() throws Exception{
-		Conjunto c1 = new Conjunto();
-		Conjunto c2 = new Conjunto();
-		Conjunto c3 = new Conjunto();
-		
-		c1.addPunto(LSP.remove(0));
-		c1.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		c3.addPunto(LSP.remove(0));
-		
-		LCP.add(c1);
-		LCP.add(c2);
-		LCP.add(c3);
-	}
-	
-	
-	//DIVIDE LSP COMO LA TESIS DE DIB EJEMPLO 4
-	public void dividirDIB4() throws Exception{
-		Conjunto c1 = new Conjunto();
-		Conjunto c2 = new Conjunto();
-		
-		c1.addPunto(LSP.remove(0));
-		c1.addPunto(LSP.remove(0));
-		c1.addPunto(LSP.remove(0));
-		c1.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		c2.addPunto(LSP.remove(0));
-		
-		LCP.add(c1);
-		LCP.add(c2);
-	}
-	
-	
-	
-	//DIVIDE LSP EN DOS CONJUNTOS PARA HACER PRUEBAS
-	public void dividirLSP() throws Exception{
-		if(isLoad && LSP.size() > 1){
-			int mitad = LSP.size()/2;
-			Conjunto c1 = new Conjunto();
-			Conjunto c2 = new Conjunto();
-			for (int i = 0; i < mitad; i++) {
-				c1.addPunto(LSP.get(0));
-				LSP.remove(0);
-			}
-			
-			mitad = LSP.size();
-			for (int i = 0; i < mitad; i++) {
-				c2.addPunto(LSP.get(0));
-				LSP.remove(0);
-			}
-			LCP.add(c1);
-			LCP.add(c2);
-		}
-		else throw new Exception("La instancia no esta cargada o no tiene más de dos puntos");
-		
-	}
-	
-	
-	//DIVIDE LSP EN UN CONJUNTOS PARA HACER PRUEBAS
-	public void dividirUNO() throws Exception{
-		if(isLoad){
-			Conjunto c1 = new Conjunto();
-			int counter = LSP.size();
-			for (int i = 0; i < counter; i++) {
-				c1.addPunto(LSP.get(0));
-				LSP.remove(0);
-			}
-			LCP.add(c1);
-		}
-		else throw new Exception("La instancia no esta cargada o no tiene más de dos puntos");
-		
-	}
-	
-	
+
 	//Toma un punto de LSP y lo inserta en el conjunto de LCP donde la distancia al punto de LCP sea la mínima
 	public Punto Add_Mindot(){
 		if(LSP.size() == 0) return null;
-		Punto p = LSP.remove(0);
+		Punto p = LSP.get(0);
 		
 		if(LCP.size() == 0){//SI NO HAY CONJUNTOS SE CREA UNO
 			Conjunto c = new Conjunto();
-			c.addPunto(p);
+			c.add(p);
 			LCP.add(c);
+			LSP.remove(0);
 		}
 		else{//SI HAY ENTONCES SE INSERTA EN EL DE DISTANCIA MINIMA
 			double dis_min = Double.MAX_VALUE;
 			Conjunto con_dis_min = null;
 			for(Conjunto c : LCP){
-				if(c.getConjunto().size() > 0){
+				if(c.size() > 0){
 					double dis_aux = 0;
 				
 					try {
@@ -189,10 +51,12 @@ public class Instancia{
 				}
 			}
 			
-			if(con_dis_min != null) con_dis_min.addPunto(p);
+			if(con_dis_min != null){
+				con_dis_min.add(p);
+				LSP.remove(0);
+			}
 			else return null;
 		}
-		
 		return p;
 	}
 	
@@ -202,7 +66,7 @@ public class Instancia{
 		Punto p = LSP.remove(0);
 		
 		Conjunto c = new Conjunto();
-		c.addPunto(p);
+		c.add(p);
 		LCP.add(c);
 		
 		return p;
@@ -216,7 +80,7 @@ public class Instancia{
 		
 		if(LCP.size() == 0){//SI NO HAY CONJUNTOS SE CREA UNO
 			Conjunto c = new Conjunto();
-			c.addPunto(p);
+			c.add(p);
 			LCP.add(c);
 		}
 		else{//SI HAY ENTONCES SE INSERTA EN EL DE DISTANCIA MINIMA
@@ -237,7 +101,8 @@ public class Instancia{
 					index = i;
 				}
 			}
-			LCP.get(index).addPunto(p);
+			LCP.get(index).add(p);
+			
 		}
 		
 		return p;
@@ -269,14 +134,14 @@ public class Instancia{
 		
 		if(LCP.size() == 0){
 			Conjunto c = new Conjunto();
-			c.addPunto(p);
+			c.add(p);
 			LCP.add(c);
 		}
 		else{
 			Conjunto con_min = null;
 			min_dis = Double.MAX_VALUE;
 			for(Conjunto c : LCP){
-				if(c.getConjunto().size() > 0){
+				if(c.size() > 0){
 					double dis_medida = 0;
 					try {
 						dis_medida = this.d(CE, c);
@@ -291,7 +156,7 @@ public class Instancia{
 					}
 				}
 			}
-			if(con_min != null) con_min.addPunto(p);
+			if(con_min != null) con_min.add(p);
 			else return null;
 		}
 		
@@ -325,14 +190,14 @@ public class Instancia{
 		
 		if(LCP.size() == 0){
 			Conjunto c = new Conjunto();
-			c.addPunto(p);
+			c.add(p);
 			LCP.add(c);
 		}
 		else{
 			Conjunto con_min = null;
 			max_dis = 0;
 			for(Conjunto c : LCP){
-				if(c.getConjunto().size() > 0){
+				if(c.size() > 0){
 					double dis_medida = 0;
 					try {
 						dis_medida = this.d(CE, c);
@@ -348,7 +213,7 @@ public class Instancia{
 					}
 				}
 			}
-			if(con_min != null) con_min.addPunto(p);
+			if(con_min != null) con_min.add(p);
 			else return null;
 		}
 		
@@ -361,14 +226,14 @@ public class Instancia{
 		
 		if(LCP.size() <= 30){
 			Conjunto c = new Conjunto();
-			if(LSP.size() > 0) c.addPunto(LSP.remove(0));
+			if(LSP.size() > 0) c.add(LSP.remove(0));
 			else return;
 			LCP.add(c);
 		}
 	}
 	
 	
-	//JOIN_CP: Une conjuntos cercanos. Sus centros LCC tienen distancia minima.
+	//JOIN_CP: Une conjuntos cercanos. Sus centros CC tienen distancia minima.
 	public void Join_Cp(){
 		updateLCC();
 		if(LCC.size() < 2) return;
@@ -405,7 +270,7 @@ public class Instancia{
 		}
 	}
 	
-	//MOVE_MIN: Se eligen dos conjunto (A, B), donde su LCC es mínima, se elige un punto de A tal que la distancia del punto al CC de B sea mínima. El punto se mueve al otro conjunto (B). Si el conjunto A queda vacío, se elimina.
+	//MOVE_MIN: Se eligen dos conjunto (A, B), donde su CC es m�nima, se elige un punto de A tal que la distancia del punto al CC de B sea mínima. El punto se mueve al otro conjunto (B). Si el conjunto A queda vacío, se elimina.
 	public void Move_Min(){
 		updateLCC();
 		if(LCC.size() < 2) return;
@@ -437,7 +302,7 @@ public class Instancia{
 			dis = Double.MAX_VALUE;
 			Punto p_move = null;
 			
-			for(Punto p : LCP.get(p1).getConjunto()){
+			for(Punto p : LCP.get(p1)){
 				double dis_medida = 0;
 				try {
 					dis_medida = p.distancia(LCC.get(p2));
@@ -459,33 +324,72 @@ public class Instancia{
 	
 	
 	//Si usamos 1 - s_avg(xi) se puede considerar como error ya que cuando e = 0 entonces s = 1, lo cual hace un agrupamiento perfecto.
-	public synchronized double fitness(){
+	public double fitness(){
 		double fitness = 1;
+		//CALCULA INDICE SILUETA
+		double error = error();
+		//SI NO LOS AGRUPA TODOS
+		double no_agrupados = noAgrupados();
+		//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES 5
+		if(LCP.size() != 1) fitness = error*alfa + no_agrupados*beta;
+		else fitness = 5;
+		
+		return fitness;
+	}
+	
+	//FITNESS CON MAXIMO DE PROFUNDIDAD
+	public double fitness(long nodesize) {
+		double fitness = 1;
+		
+		long maxnodesize = 10;
+		double nodesize_indice = 1;
+		if(nodesize > maxnodesize) maxnodesize = nodesize;
+		if(nodesize < 0) nodesize = maxnodesize;
+		nodesize_indice = (double)(nodesize-maxnodesize)/maxnodesize;
+		
+		//CALCULA INDICE SILUETA
+		double error = error();
+		//SI NO LOS AGRUPA TODOS
+		double no_agrupados = noAgrupados();
+		//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES 5
+		if(LCP.size() != 1) fitness = error*alfa + no_agrupados*beta + (1-alfa-beta)*nodesize_indice;
+		else fitness = 5;
+		
+		return fitness;
+	}
+	
+	public double noAgrupados() {
+		if(LSP_ORI.size() != 0){
+			 return LSP.size()*1.0/LSP_ORI.size();
+		}
+		else return 1;
+	}
+	
+	public double error() {
+		double error = 1;
 		try {
-			//CALCULA INDICE SILUETA
-			double error = (1 - this.s_avg())/2;
-			//SI NO LOS AGRUPA TODOS
-			double no_agrupados = 1;
-			if(LSP_ORI.size() != 0){
-				no_agrupados = LSP.size()/LSP_ORI.size();
-			}
-			//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES 5
-			if(LCP.size() != 1) fitness = error*alfa + no_agrupados*beta;
-			else fitness = 5;
+			error = (1 - this.s_avg())/2;
 		}
 		catch (Exception e) {
-			Contenedor.getInstance().cantidaderrores++;
-			return 10;
-			
-			// e.printStackTrace(System.out);
-			// System.exit(0);
+			error = 10;
 		}
-		if(mejorfitness > fitness){
-			mejorfitness = fitness;
-			mejorLCP = new ArrayList<Conjunto>(LCP);
-			quedaLSP = new ArrayList<Punto>(LSP);
+		
+		return error;
+	}
+	
+	public synchronized void tam(){
+		int tam = LSP.size();
+		int tamLCP = 0;
+		for(Conjunto c : LCP){
+			tam += c.size();
+			tamLCP += c.size();
 		}
-		return fitness;
+		if(tam != 75){
+			System.out.println(LSP.size());
+			System.out.println(tamLCP);
+			System.exit(0);
+		}
+		
 	}
 	
 	//PROMEDIO DE SILUETA EN TODA LA INSTANCIA
@@ -497,7 +401,7 @@ public class Instancia{
 		double suma = 0;
 		int count = 0;
 		for(Conjunto c : LCP){
-			for(Punto p : c.getConjunto()){
+			for(Punto p : c){
 				suma += this.s(p);
 				count++;
 			}
@@ -524,16 +428,13 @@ public class Instancia{
 		if(!this.isLoad) throw new Exception("La instancia no tiene puntos cargados");
 		if(LCP.size() == 0) throw new Exception("No hay grupos procesados");
 		
-		int index = 0;
 		double min = Double.MAX_VALUE;
 		for(Conjunto c : LCP){
-			if(c.getConjunto().contains(xi)){
-				index++;
+			if(c.contains(xi)){
 				continue;
 			}
 			double d = this.d(xi, c);
 			if(min > d) min = d;
-			index++;
 		}
 		
 		return min;
@@ -543,18 +444,18 @@ public class Instancia{
 	public double d(Punto xi, Conjunto Ct) throws Exception{
 		if(!this.isLoad) throw new Exception("La instancia no tiene puntos cargados");
 		if(LCP.size() == 0) throw new Exception("No hay grupos procesados");
-		// if(Ct.getConjunto().contains(xi)) return Double.MAX_VALUE;
-		// if(Ct.getConjunto().contains(xi)) throw new Exception("El Punto elegido esta en el conjunto elegido");
-		if(Ct.getConjunto().size() == 0) throw new Exception("El conjunto no tiene elementos");
+		// if(Ct.contains(xi)) return Double.MAX_VALUE;
+		// if(Ct.contains(xi)) throw new Exception("El Punto elegido esta en el conjunto elegido");
+		if(Ct.size() == 0) throw new Exception("El conjunto no tiene elementos");
 		
 		//SI EL CONJUNTO TIENE UN ELEMENTO ENTONCES DEVUELVE 0
-		if(Ct.getConjunto().size() == 1) return 0;
+		if(Ct.size() == 1) return 0;
 		
 		double suma = 0;
-		for(Punto p : Ct.getConjunto()){
+		for(Punto p : Ct){
 			suma += xi.distancia(p);
 		}
-		double resultado = suma / Ct.getConjunto().size();
+		double resultado = suma / Ct.size();
 		return resultado;
 	}
 	
@@ -566,7 +467,7 @@ public class Instancia{
 		int index_conjunto = 0;
 		boolean encontrado = false;
 		for(Conjunto c : LCP){
-			for(Punto p : c.getConjunto()){
+			for(Punto p : c){
 				if(p.equals(xi)){
 					encontrado = true;
 					break;
@@ -582,16 +483,16 @@ public class Instancia{
 		Conjunto c = LCP.get(index_conjunto);
 		
 		//SI EL CONJUNTO TIENE UN ELEMENTO ENTONCES DEVUELVE 0
-		if(c.getConjunto().size() == 1) return 0;
+		if(c.size() == 1) return 0;
 		//SI NO HAY ELEMENTOS => ERROR
-		if(c.getConjunto().size() == 0) throw new Exception("El conjunto no tiene elementos");
+		if(c.size() == 0) throw new Exception("El conjunto no tiene elementos");
 		
 		
 		double suma = 0;
-		for(Punto p : c.getConjunto()){
+		for(Punto p : c){
 			if( !xi.equals(p) ) suma += xi.distancia(p);
 		}
-		double resultado = suma / (c.getConjunto().size() - 1);
+		double resultado = suma / (c.size() - 1);
 		return resultado;
 	}
 	
@@ -599,12 +500,11 @@ public class Instancia{
 		isLoad = false;
 	}
 	
-	public Instancia(String path, String filename, double alfa, double beta) throws Exception{
+	public Instancia(String path, String filename, double alfa, double beta){
 		this.filename = filename;
 		this.path = path;
 		this.alfa = alfa;
 		this.beta = beta;
-		if(this.alfa + this.beta != 1) throw new Exception("ALFA o BETA estan mal");
 		isLoad = false;
 	}
 	
@@ -664,11 +564,12 @@ public class Instancia{
 		if(isLoad){
 			LCP.clear();
 			LSP.clear();
-			LSP = new ArrayList<Punto>(LSP_ORI);
+			LSP = new Conjunto(LSP_ORI);
 		}
 	}
 	
 	public void updateLCC(){
+		if(!LSP.isChange && !LCC.isChange) return;//SI NINGUN CONJUNTO CAMBIO
 		if(LCC.size() > 0) LCC.clear();
 		for(Conjunto c : LCP){
 			int count = 0;
@@ -681,7 +582,7 @@ public class Instancia{
 				return;
 			}
 			
-			for(Punto p : c.getConjunto()){
+			for(Punto p : c){
 				try {
 					suma = suma.suma(p);
 				}
@@ -703,17 +604,22 @@ public class Instancia{
 			}
 			LCC.add(suma);
 		}
+		LSP.isChange = false;
+		LCP.isChange = false;
 	}
 	
 	public Punto updateCE(){
 		if(isLoad){
-			this.updateLCC();
+			if(!LSP.isChange && !LCC.isChange) return CE;//SI NINGUN CONJUNTO CAMBIO
+			updateLCC();
 			Punto suma = null;
 			
 			try {
 				suma = (new Punto(dimension)).zeros();
 			}
 			catch (Exception e) {
+				LSP.isChange = false;
+				LCP.isChange = false;
 				return null;
 			}
 			
@@ -740,6 +646,8 @@ public class Instancia{
 			}
 			
 			this.CE = suma;
+			LSP.isChange = false;
+			LCP.isChange = false;
 			
 			return this.CE;
 		}
@@ -752,8 +660,8 @@ public class Instancia{
 		if(p2 < 0 || p2 > LCP.size()-1) new Exception("p2 esta fuera de rango");
 		if(p1 == p2) new Exception("p1 y p2 son iguales");
 		
-		for(Punto p : LCP.get(p2).getConjunto()){
-			if(!LCP.get(p1).getConjunto().contains(p)) LCP.get(p1).addPunto(p);
+		for(Punto p : LCP.get(p2)){
+			if(!LCP.get(p1).contains(p)) LCP.get(p1).add(p);
 		}
 		
 		LCP.remove(p2);
@@ -761,9 +669,9 @@ public class Instancia{
 	
 	//MUEVE UN PUNTO DESDE UN CONJUNTO A OTRO. SI EL CONJUNTO QUEDA VACIO SE ELIMINA
 	private void moveDot(Punto punto, Conjunto c_desde, Conjunto c_hasta){
-		c_hasta.addPunto(punto);
-		c_desde.getConjunto().remove(punto);
-		if(c_desde.getConjunto().size() == 0) LCP.remove(c_desde);
+		c_hasta.add(punto);
+		c_desde.remove(punto);
+		if(c_desde.size() == 0) LCP.remove(c_desde);
 	}
 	
 	public void setFilename(String filename){
@@ -782,11 +690,148 @@ public class Instancia{
 		return this.path;
 	}
 	
-	public ArrayList<Punto> getLSP(){
+	public Conjunto getLSP(){
 		return this.LSP;
 	}
 	
-	public ArrayList<Conjunto> getLCP(){
+	public Conjunto getLSP_ORI(){
+		return this.LSP_ORI;
+	}
+	
+	public SuperConjunto getLCP(){
 		return this.LCP;
 	}
+	
+	public String logantes(){
+		double error = error();
+		double no_agru = noAgrupados();
+		return "\nerror "+ error + " ,ajustado " + error*alfa + "\nno agrupado " + no_agru + " ,ajustado "+ no_agru*beta +"\nAntes en LSP\n" + LSP + "\nLCP\n" + LCP;
+	}
+	
+	public String logdespues() {
+		double error = error();
+		double no_agru = noAgrupados();
+		return "\nerror "+ error + " ,ajustado " + error*alfa + "\nno agrupado " + no_agru + " ,ajustado "+ no_agru*beta +"\nDespues en LSP\n" + LSP + "\nLCP\n" + LCP;
+	}
+	
+	public String toString() {
+		return "Instancia " + filename;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	protected Instancia clone(){
+		Instancia copia = null;
+		try {
+			copia = (Instancia)super.clone();
+		} catch (CloneNotSupportedException e) {
+			System.out.println(" no se puede duplicar");
+			System.exit(0);
+		}
+		
+		copia.LSP = new Conjunto(LSP);
+		copia.LSP_ORI = new Conjunto(LSP_ORI);
+		copia.LCP = new SuperConjunto(LCP);
+		copia.LCC = new Conjunto(LCC);
+		try {
+			copia.CE = CE.copy();
+		} catch (Exception e) {
+			
+		}
+		
+		return copia;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((CE == null) ? 0 : CE.hashCode());
+		result = prime * result + ((LCC == null) ? 0 : LCC.hashCode());
+		result = prime * result + ((LCP == null) ? 0 : LCP.hashCode());
+		result = prime * result + ((LSP == null) ? 0 : LSP.hashCode());
+		result = prime * result + ((LSP_ORI == null) ? 0 : LSP_ORI.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(alfa);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(beta);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + dimension;
+		result = prime * result
+				+ ((filename == null) ? 0 : filename.hashCode());
+		result = prime * result + (hasSolution ? 1231 : 1237);
+		result = prime * result + (isLoad ? 1231 : 1237);
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Instancia other = (Instancia) obj;
+		if (CE == null) {
+			if (other.CE != null)
+				return false;
+		} else if (!CE.equals(other.CE))
+			return false;
+		if (LCC == null) {
+			if (other.LCC != null)
+				return false;
+		} else if (!LCC.equals(other.LCC))
+			return false;
+		if (LCP == null) {
+			if (other.LCP != null)
+				return false;
+		} else if (!LCP.equals(other.LCP))
+			return false;
+		if (LSP == null) {
+			if (other.LSP != null)
+				return false;
+		} else if (!LSP.equals(other.LSP))
+			return false;
+		if (LSP_ORI == null) {
+			if (other.LSP_ORI != null)
+				return false;
+		} else if (!LSP_ORI.equals(other.LSP_ORI))
+			return false;
+		if (Double.doubleToLongBits(alfa) != Double
+				.doubleToLongBits(other.alfa))
+			return false;
+		if (Double.doubleToLongBits(beta) != Double
+				.doubleToLongBits(other.beta))
+			return false;
+		if (dimension != other.dimension)
+			return false;
+		if (filename == null) {
+			if (other.filename != null)
+				return false;
+		} else if (!filename.equals(other.filename))
+			return false;
+		if (hasSolution != other.hasSolution)
+			return false;
+		if (isLoad != other.isLoad)
+			return false;
+		if (path == null) {
+			if (other.path != null)
+				return false;
+		} else if (!path.equals(other.path))
+			return false;
+		return true;
+	}
+
+	
+	
 }
