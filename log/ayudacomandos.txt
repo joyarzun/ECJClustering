@@ -7,3 +7,4 @@ cat 5COR15NODOS/log_resumen.log | grep "begin" | head -5 | tail -1 | tr -c a-zA-
 #IMPRIMIR LINEAS PARES O IMPARES
 cat 5COR35NODOS/log_resumen.log | grep "Error" | awk 'NR%2==0'
 
+export CLASSPATH=/Users/jonnatan/ECJ/ecj:$(pwd):$(pwd)/log4j-core-2.0-beta9.jar:$(pwd)/log4j-api-2.0-beta9.jar
