@@ -17,6 +17,7 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 	private static final long serialVersionUID = -2446963225855949037L;
 	private static Logger logNormal = LogManager.getLogger("logNormal");
 	private static Logger logResumido = LogManager.getLogger("logResumido");
+	private static Logger logEstadistica = LogManager.getLogger("logEstadistica");
 	public Instancia instancia;
 	public Singleton sin = Singleton.getInstance();
 	public Contenedor contenedor;
@@ -28,7 +29,7 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
     {
 		logNormal.info("setup problem!");
 	    logResumido.info("setup problem!");
-	    System.out.println("setup problem!");
+	    logEstadistica.info("setup problem!");
 		// very important, remember this
 	    super.setup(state,base);
 
@@ -46,7 +47,7 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 		{
     		if(sin.selogea){
     			logNormal.debug("evaluando****** \n");
-    			logResumido.debug("evaluando****** \n");
+//    			logResumido.debug("evaluando****** \n");
     		}
 			MyGPData input = (MyGPData)(this.input);
 			
@@ -75,6 +76,9 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 				if (result <= 0.01) hits++;
 				sum += result;
 			}
+			
+			sum = sum/contenedor.instancias.size();
+			
 			if(sin.fitness > sum){
 				sin.fitness = sum;
 				sin.mejoresLCP = new ArrayList<SuperConjunto>(LCP_);
@@ -84,24 +88,45 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 			}
 			
 			// the fitness better be KozaFitness!
-            KozaFitness f = ((KozaFitness)ind.fitness);
+			KozaFitness f = ((KozaFitness)ind.fitness);
             f.setStandardizedFitness(state,(float)sum);
             f.hits = hits;
             ind.evaluated = true;
             if(sin.selogea){
-            	logNormal.debug("fin evaluación*****, fitness {}", sum);
-            	logResumido.debug("fin evaluación*****, fitness {}", sum);
+            	logNormal.debug("fin evaluaci√≥n *****, fitness {}\n\n", sum);
+//            	logResumido.debug("fin evaluaci√≥n *****, fitness {}\n\n", sum);
             }
 		}
     }
 	
 	public synchronized void describe(EvolutionState state, Individual ind, int subpopulation,int threadnum, int log){
+		ind.evaluated = false;
+		sin.selogea = true;
+		String tamNodo = "Tama√±o del nodo: " + ((GPIndividual)ind).size();
+		
+		if(sin.selogea){
+			String treelatex = ((GPIndividual)ind).trees[0].child.makeLatexTree();
+			String fitness = ((GPIndividual)ind).fitness.fitnessToStringForHumans();
+			
+			logNormal.debug("\n" + fitness + "\n" + treelatex + "\n" + tamNodo + "\n");
+			logResumido.debug("\n" + fitness + "\n" + treelatex + "\n" + tamNodo + "\n");
+		}
+		
+		state.output.println(tamNodo, 0);
 		for(int i = 0; i < sin.mejoresLCP.size(); i++){
 			state.output.println(contenedor.instancias.get(i).toString(), 0);
 			state.output.println("Error " + sin.error.get(i) + " ,ajustado " + sin.error.get(i)*Contenedor.alfa, 0);
 			state.output.println("No agrupados " + sin.no_agrupados.get(i) + " ,ajustado " + sin.no_agrupados.get(i)*Contenedor.beta, 0);
 			state.output.println("LCP\n" + sin.mejoresLCP.get(i).toString(), 0);
 			state.output.println("LSP\n" + sin.quedaLSP.get(i).toString(), 0);
+			if(sin.selogea){
+				logResumido.debug(contenedor.instancias.get(i).toString());
+				logResumido.debug("Error " + sin.error.get(i) + " ,ajustado " + sin.error.get(i)*Contenedor.alfa);
+				logResumido.debug("No agrupados " + sin.no_agrupados.get(i) + " ,ajustado " + sin.no_agrupados.get(i)*Contenedor.beta);
+				logResumido.debug("LCP\n" + sin.mejoresLCP.get(i).toString());
+				logResumido.debug("LSP\n" + sin.quedaLSP.get(i).toString());
+			}
+			
 		}
 		long totalElapsed = sin.Add_MindotElapsedTime+sin.Create_CpElapsedTime+sin.Join_CpElapsedTime+sin.Move_MinElapsedTime;
 		state.output.println("Add_Min " + (double)sin.Add_MindotElapsedTime/sin.Add_MindotCounter + " (" + sin.Add_MindotElapsedTime +"|"+ (double)sin.Add_MindotElapsedTime/totalElapsed +"|"+ sin.Add_MindotCounter + ")", 0);
@@ -109,15 +134,9 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 		state.output.println("Join_Cp " + (double)sin.Join_CpElapsedTime/sin.Join_CpCounter + " (" + sin.Join_CpElapsedTime +"|"+ (double)sin.Join_CpElapsedTime/totalElapsed +"|"+sin.Join_CpCounter + ")", 0);
 		state.output.println("Move_Min " + (double)sin.Move_MinElapsedTime/sin.Move_MinCounter + " (" + sin.Move_MinElapsedTime +"|"+ (double)sin.Move_MinElapsedTime/totalElapsed +"|"+sin.Move_MinCounter + ")", 0);
 		
-		ind.evaluated = false;
-		sin.selogea = true;
 		
-		if(sin.selogea){
-			String treelatex = ((GPIndividual)ind).trees[0].child.makeLatexTree();
-			String fitness = ((GPIndividual)ind).fitness.fitnessToStringForHumans();
-			logNormal.debug("\n" + fitness + "\n" + treelatex + "\n");
-		}
 		this.evaluate(state, ind, subpopulation, threadnum);
+		if(sin.selogea) logResumido.debug("Termino");
 	}
 
 	/* (non-Javadoc)
@@ -133,7 +152,26 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 	
 	
 	
-//	public void finishEvaluating(EvolutionState state, int thread){
-//		System.out.println("finishEvaluating");
-//	}
+	public void finishEvaluating(EvolutionState state, int thread){
+		if(thread == 0){
+			MySimpleStatistics s = (MySimpleStatistics) state.statistics;
+			GPIndividual indbest = (GPIndividual) s.best_of_run[0];
+			GPIndividual indworst = (GPIndividual) s.worst_of_run[0];
+			float avg_f = s.avg_of_run[0];
+			String log = "";
+			if(indbest != null){
+				KozaFitness f = ((KozaFitness)indbest.fitness);
+//				System.out.println(f.standardizedFitness());
+				log += f.standardizedFitness();
+			}
+			if(indworst != null){
+				KozaFitness f = ((KozaFitness)indworst.fitness);
+//				System.out.println(f.standardizedFitness());
+				log += " " + f.standardizedFitness();
+			}
+//			System.out.println(avg_f);
+			if(state.generation != 0) log += " " + avg_f;
+			if(state.generation != 0) logEstadistica.info(log);
+		}
+	}
 }

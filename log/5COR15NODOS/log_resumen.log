@@ -1,0 +1,560 @@
+18:34:29.515 INFO  MyProblem 30 setup - setup problem!
+18:38:13.563 DEBUG MyProblem 106 describe - 
+Fitness: Standardized=0.32677904 Adjusted=0.753705 Hits=0
+\begin{bundle}{\gpbox{And}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\begin{bundle}{\gpbox{Or}}\chunk{\gpbox{Create_Cp}}\chunk{\gpbox{Create_Cp}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{And}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\gpbox{Add_Mindot}}\chunk{\gpbox{Move_Min}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{If}}\chunk{\gpbox{Join_Cp}}\chunk{\gpbox{Create_Cp}}\end{bundle}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{Or}}\chunk{\gpbox{Create_Cp}}\chunk{\gpbox{Create_Cp}}\end{bundle}}\end{bundle}
+
+18:38:13.564 DEBUG MyProblem 116 describe - Instancia test.data
+18:38:13.564 DEBUG MyProblem 117 describe - Error 0.14655783254059296 ,ajustado 0.13483320593734552
+18:38:13.564 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:38:13.565 DEBUG MyProblem 119 describe - LCP
+C0
+2:2.0,3.0
+2:1.0,3.0
+2:2.0,2.0
+2:1.0,2.0
+
+C1
+2:1.0,-3.0
+2:1.0,-1.0
+2:2.0,-1.0
+2:2.0,-2.0
+2:1.0,-2.0
+2:2.0,-3.0
+
+
+18:38:13.565 DEBUG MyProblem 120 describe - LSP
+
+18:38:13.568 DEBUG MyProblem 116 describe - Instancia ruspini.data
+18:38:13.568 DEBUG MyProblem 117 describe - Error 0.2086367895923526 ,ajustado 0.1919458464249644
+18:38:13.568 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:38:13.571 DEBUG MyProblem 119 describe - LCP
+C0
+2:83.0,21.0
+2:13.0,69.0
+2:12.0,88.0
+2:9.0,77.0
+2:22.0,74.0
+2:27.0,72.0
+2:28.0,76.0
+2:15.0,75.0
+2:19.0,65.0
+2:18.0,61.0
+2:24.0,58.0
+2:28.0,60.0
+2:10.0,59.0
+2:5.0,63.0
+2:31.0,60.0
+2:32.0,61.0
+2:27.0,55.0
+2:30.0,52.0
+2:13.0,49.0
+2:4.0,53.0
+2:36.0,72.0
+2:70.0,4.0
+2:77.0,12.0
+2:61.0,15.0
+2:69.0,15.0
+2:78.0,16.0
+2:66.0,18.0
+2:58.0,13.0
+2:64.0,20.0
+2:69.0,21.0
+2:66.0,23.0
+2:61.0,25.0
+2:76.0,27.0
+2:72.0,31.0
+2:64.0,30.0
+
+C1
+2:44.0,143.0
+2:46.0,142.0
+2:44.0,149.0
+2:47.0,149.0
+2:41.0,150.0
+2:49.0,152.0
+2:38.0,145.0
+2:50.0,142.0
+2:38.0,143.0
+2:53.0,144.0
+2:38.0,151.0
+2:52.0,152.0
+2:44.0,156.0
+2:55.0,155.0
+2:35.0,153.0
+2:54.0,124.0
+2:34.0,141.0
+2:60.0,136.0
+2:32.0,143.0
+2:63.0,139.0
+2:32.0,149.0
+2:86.0,132.0
+2:33.0,154.0
+2:85.0,115.0
+2:28.0,147.0
+2:78.0,94.0
+2:74.0,96.0
+2:97.0,122.0
+2:98.0,116.0
+2:98.0,124.0
+2:99.0,119.0
+2:99.0,128.0
+2:101.0,115.0
+2:85.0,96.0
+2:108.0,111.0
+2:108.0,116.0
+2:111.0,126.0
+2:110.0,111.0
+2:115.0,117.0
+2:117.0,115.0
+
+
+18:38:13.571 DEBUG MyProblem 120 describe - LSP
+
+18:38:15.191 INFO  MyProblem 30 setup - setup problem!
+18:40:16.920 DEBUG MyProblem 106 describe - 
+Fitness: Standardized=0.33236107 Adjusted=0.7505473 Hits=0
+\begin{bundle}{\gpbox{While}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\gpbox{Add_Mindot}}\chunk{\begin{bundle}{\gpbox{If}}\chunk{\gpbox{Move_Min}}\chunk{\gpbox{Move_Min}}\end{bundle}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{Or}}\chunk{\begin{bundle}{\gpbox{If}}\chunk{\gpbox{Create_Cp}}\chunk{\gpbox{Move_Min}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{Or}}\chunk{\gpbox{Add_Mindot}}\chunk{\begin{bundle}{\gpbox{If}}\chunk{\gpbox{Create_Cp}}\chunk{\gpbox{Move_Min}}\end{bundle}}\end{bundle}}\end{bundle}}\end{bundle}
+
+18:40:16.921 DEBUG MyProblem 116 describe - Instancia test.data
+18:40:16.921 DEBUG MyProblem 117 describe - Error 0.14655783254059296 ,ajustado 0.13483320593734552
+18:40:16.921 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:40:16.922 DEBUG MyProblem 119 describe - LCP
+C0
+2:1.0,2.0
+2:1.0,3.0
+2:2.0,3.0
+2:2.0,2.0
+
+C1
+2:2.0,-3.0
+2:2.0,-2.0
+2:1.0,-3.0
+2:1.0,-2.0
+2:2.0,-1.0
+2:1.0,-1.0
+
+
+18:40:16.922 DEBUG MyProblem 120 describe - LSP
+
+18:40:16.924 DEBUG MyProblem 116 describe - Instancia ruspini.data
+18:40:16.925 DEBUG MyProblem 117 describe - Error 0.2147042047918597 ,ajustado 0.19752786840851094
+18:40:16.925 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:40:16.927 DEBUG MyProblem 119 describe - LCP
+C0
+2:54.0,124.0
+2:50.0,142.0
+2:60.0,136.0
+2:53.0,144.0
+2:46.0,142.0
+2:63.0,139.0
+2:44.0,143.0
+2:47.0,149.0
+2:86.0,132.0
+2:52.0,152.0
+2:49.0,152.0
+2:85.0,115.0
+2:55.0,155.0
+2:44.0,149.0
+2:85.0,96.0
+2:38.0,143.0
+2:41.0,150.0
+2:78.0,94.0
+2:38.0,145.0
+2:34.0,141.0
+2:38.0,151.0
+2:44.0,156.0
+2:97.0,122.0
+2:32.0,143.0
+2:35.0,153.0
+2:98.0,116.0
+2:32.0,149.0
+2:33.0,154.0
+2:98.0,124.0
+2:28.0,147.0
+2:99.0,119.0
+2:99.0,128.0
+2:101.0,115.0
+2:108.0,111.0
+2:110.0,111.0
+2:108.0,116.0
+2:111.0,126.0
+2:115.0,117.0
+2:117.0,115.0
+
+C1
+2:61.0,15.0
+2:70.0,4.0
+2:69.0,15.0
+2:77.0,12.0
+2:83.0,21.0
+2:78.0,16.0
+2:30.0,52.0
+2:27.0,55.0
+2:66.0,18.0
+2:31.0,60.0
+2:32.0,61.0
+2:58.0,13.0
+2:28.0,60.0
+2:24.0,58.0
+2:64.0,20.0
+2:36.0,72.0
+2:13.0,49.0
+2:69.0,21.0
+2:18.0,61.0
+2:19.0,65.0
+2:66.0,23.0
+2:27.0,72.0
+2:28.0,76.0
+2:61.0,25.0
+2:10.0,59.0
+2:22.0,74.0
+2:76.0,27.0
+2:13.0,69.0
+2:4.0,53.0
+2:72.0,31.0
+2:15.0,75.0
+2:5.0,63.0
+2:64.0,30.0
+2:9.0,77.0
+2:12.0,88.0
+2:74.0,96.0
+
+
+18:40:16.928 DEBUG MyProblem 120 describe - LSP
+
+18:40:18.559 INFO  MyProblem 30 setup - setup problem!
+18:42:52.029 DEBUG MyProblem 106 describe - 
+Fitness: Standardized=0.3585803 Adjusted=0.73606247 Hits=0
+\begin{bundle}{\gpbox{If}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\gpbox{Add_Mindot}}\chunk{\gpbox{Add_Mindot}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{And}}\chunk{\gpbox{Create_Cp}}\chunk{\begin{bundle}{\gpbox{Or}}\chunk{\gpbox{Create_Cp}}\chunk{\gpbox{Add_Mindot}}\end{bundle}}\end{bundle}}\end{bundle}}\chunk{\gpbox{Join_Cp}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{If}}\chunk{\gpbox{Move_Min}}\chunk{\gpbox{Move_Min}}\end{bundle}}\end{bundle}
+
+18:42:52.030 DEBUG MyProblem 116 describe - Instancia test.data
+18:42:52.030 DEBUG MyProblem 117 describe - Error 0.14655783254059296 ,ajustado 0.13483320593734552
+18:42:52.030 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:42:52.031 DEBUG MyProblem 119 describe - LCP
+C0
+2:2.0,3.0
+2:1.0,3.0
+2:2.0,2.0
+2:1.0,2.0
+
+C1
+2:2.0,-2.0
+2:2.0,-3.0
+2:1.0,-2.0
+2:1.0,-3.0
+2:2.0,-1.0
+2:1.0,-1.0
+
+
+18:42:52.031 DEBUG MyProblem 120 describe - LSP
+
+18:42:52.033 DEBUG MyProblem 116 describe - Instancia ruspini.data
+18:42:52.033 DEBUG MyProblem 117 describe - Error 0.24320335563302636 ,ajustado 0.22374708718238426
+18:42:52.034 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:42:52.036 DEBUG MyProblem 119 describe - LCP
+C0
+2:4.0,53.0
+2:5.0,63.0
+2:10.0,59.0
+2:9.0,77.0
+2:13.0,49.0
+2:13.0,69.0
+2:15.0,75.0
+2:19.0,65.0
+2:22.0,74.0
+2:27.0,72.0
+2:24.0,58.0
+2:27.0,55.0
+2:28.0,60.0
+2:30.0,52.0
+2:31.0,60.0
+2:32.0,61.0
+2:70.0,4.0
+2:77.0,12.0
+2:83.0,21.0
+2:61.0,15.0
+2:69.0,15.0
+2:78.0,16.0
+2:66.0,18.0
+2:58.0,13.0
+2:64.0,20.0
+2:69.0,21.0
+2:66.0,23.0
+2:61.0,25.0
+2:76.0,27.0
+2:72.0,31.0
+2:64.0,30.0
+
+C1
+2:12.0,88.0
+2:18.0,61.0
+2:28.0,147.0
+2:32.0,149.0
+2:35.0,153.0
+2:33.0,154.0
+2:38.0,151.0
+2:41.0,150.0
+2:38.0,145.0
+2:38.0,143.0
+2:32.0,143.0
+2:34.0,141.0
+2:44.0,156.0
+2:44.0,149.0
+2:44.0,143.0
+2:46.0,142.0
+2:47.0,149.0
+2:49.0,152.0
+2:50.0,142.0
+2:53.0,144.0
+2:52.0,152.0
+2:55.0,155.0
+2:54.0,124.0
+2:60.0,136.0
+2:63.0,139.0
+2:86.0,132.0
+2:85.0,115.0
+2:85.0,96.0
+2:78.0,94.0
+2:74.0,96.0
+2:97.0,122.0
+2:98.0,116.0
+2:98.0,124.0
+2:99.0,119.0
+2:99.0,128.0
+2:101.0,115.0
+2:108.0,111.0
+2:110.0,111.0
+2:108.0,116.0
+2:111.0,126.0
+2:115.0,117.0
+2:117.0,115.0
+2:36.0,72.0
+2:28.0,76.0
+
+
+18:42:52.037 DEBUG MyProblem 120 describe - LSP
+
+18:42:53.525 INFO  MyProblem 30 setup - setup problem!
+18:44:54.741 DEBUG MyProblem 106 describe - 
+Fitness: Standardized=0.37623486 Adjusted=0.72662014 Hits=0
+\begin{bundle}{\gpbox{Or}}\chunk{\begin{bundle}{\gpbox{And}}\chunk{\begin{bundle}{\gpbox{And}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\gpbox{Add_Mindot}}\chunk{\gpbox{Join_Cp}}\end{bundle}}\chunk{\gpbox{Add_Mindot}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{And}}\chunk{\begin{bundle}{\gpbox{If}}\chunk{\gpbox{Move_Min}}\chunk{\gpbox{Create_Cp}}\end{bundle}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\gpbox{Add_Mindot}}\chunk{\gpbox{Add_Mindot}}\end{bundle}}\end{bundle}}\end{bundle}}\chunk{\gpbox{Add_Mindot}}\end{bundle}
+
+18:44:54.742 DEBUG MyProblem 116 describe - Instancia test.data
+18:44:54.743 DEBUG MyProblem 117 describe - Error 0.146557832540593 ,ajustado 0.13483320593734557
+18:44:54.743 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:44:54.743 DEBUG MyProblem 119 describe - LCP
+C0
+2:2.0,3.0
+2:1.0,3.0
+2:2.0,2.0
+2:1.0,2.0
+
+C1
+2:2.0,-1.0
+2:1.0,-1.0
+2:2.0,-2.0
+2:1.0,-2.0
+2:2.0,-3.0
+2:1.0,-3.0
+
+
+18:44:54.744 DEBUG MyProblem 120 describe - LSP
+
+18:44:54.746 DEBUG MyProblem 116 describe - Instancia ruspini.data
+18:44:54.746 DEBUG MyProblem 117 describe - Error 0.26239309278475437 ,ajustado 0.24140164536197403
+18:44:54.746 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:44:54.748 DEBUG MyProblem 119 describe - LCP
+C0
+2:4.0,53.0
+2:5.0,63.0
+2:10.0,59.0
+2:9.0,77.0
+2:12.0,88.0
+2:15.0,75.0
+2:28.0,147.0
+2:32.0,149.0
+2:35.0,153.0
+2:33.0,154.0
+2:38.0,151.0
+2:41.0,150.0
+2:38.0,145.0
+2:38.0,143.0
+2:32.0,143.0
+2:34.0,141.0
+2:44.0,156.0
+2:44.0,149.0
+2:44.0,143.0
+2:46.0,142.0
+2:47.0,149.0
+2:49.0,152.0
+2:50.0,142.0
+2:53.0,144.0
+2:52.0,152.0
+2:55.0,155.0
+2:54.0,124.0
+2:60.0,136.0
+2:63.0,139.0
+2:86.0,132.0
+2:85.0,115.0
+2:85.0,96.0
+2:78.0,94.0
+2:74.0,96.0
+2:97.0,122.0
+2:98.0,116.0
+2:98.0,124.0
+2:99.0,119.0
+2:99.0,128.0
+2:101.0,115.0
+2:108.0,111.0
+2:110.0,111.0
+2:108.0,116.0
+2:111.0,126.0
+2:115.0,117.0
+2:117.0,115.0
+
+C1
+2:13.0,49.0
+2:13.0,69.0
+2:18.0,61.0
+2:19.0,65.0
+2:22.0,74.0
+2:27.0,72.0
+2:28.0,76.0
+2:24.0,58.0
+2:27.0,55.0
+2:28.0,60.0
+2:30.0,52.0
+2:31.0,60.0
+2:32.0,61.0
+2:36.0,72.0
+2:70.0,4.0
+2:77.0,12.0
+2:83.0,21.0
+2:61.0,15.0
+2:69.0,15.0
+2:78.0,16.0
+2:66.0,18.0
+2:58.0,13.0
+2:64.0,20.0
+2:69.0,21.0
+2:66.0,23.0
+2:61.0,25.0
+2:76.0,27.0
+2:72.0,31.0
+2:64.0,30.0
+
+
+18:44:54.749 DEBUG MyProblem 120 describe - LSP
+
+18:44:56.240 INFO  MyProblem 30 setup - setup problem!
+18:46:50.329 DEBUG MyProblem 106 describe - 
+Fitness: Standardized=0.32677904 Adjusted=0.753705 Hits=0
+\begin{bundle}{\gpbox{If}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\begin{bundle}{\gpbox{And}}\chunk{\begin{bundle}{\gpbox{And}}\chunk{\begin{bundle}{\gpbox{If}}\chunk{\gpbox{Create_Cp}}\chunk{\begin{bundle}{\gpbox{And}}\chunk{\begin{bundle}{\gpbox{While}}\chunk{\gpbox{Add_Mindot}}\chunk{\gpbox{Move_Min}}\end{bundle}}\chunk{\gpbox{Move_Min}}\end{bundle}}\end{bundle}}\chunk{\gpbox{Add_Mindot}}\end{bundle}}\chunk{\gpbox{Create_Cp}}\end{bundle}}\chunk{\gpbox{Add_Mindot}}\end{bundle}}\chunk{\gpbox{Move_Min}}\end{bundle}
+
+18:46:50.330 DEBUG MyProblem 116 describe - Instancia test.data
+18:46:50.331 DEBUG MyProblem 117 describe - Error 0.14655783254059296 ,ajustado 0.13483320593734552
+18:46:50.331 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:46:50.332 DEBUG MyProblem 119 describe - LCP
+C0
+2:2.0,3.0
+2:1.0,3.0
+2:2.0,2.0
+2:1.0,2.0
+
+C1
+2:1.0,-2.0
+2:2.0,-3.0
+2:2.0,-2.0
+2:1.0,-3.0
+2:1.0,-1.0
+2:2.0,-1.0
+
+
+18:46:50.332 DEBUG MyProblem 120 describe - LSP
+
+18:46:50.335 DEBUG MyProblem 116 describe - Instancia ruspini.data
+18:46:50.335 DEBUG MyProblem 117 describe - Error 0.20863678959235266 ,ajustado 0.19194584642496446
+18:46:50.335 DEBUG MyProblem 118 describe - No agrupados 0.0 ,ajustado 0.0
+18:46:50.337 DEBUG MyProblem 119 describe - LCP
+C0
+2:28.0,147.0
+2:32.0,149.0
+2:35.0,153.0
+2:33.0,154.0
+2:38.0,151.0
+2:38.0,145.0
+2:38.0,143.0
+2:32.0,143.0
+2:34.0,141.0
+2:41.0,150.0
+2:44.0,149.0
+2:44.0,143.0
+2:46.0,142.0
+2:47.0,149.0
+2:44.0,156.0
+2:50.0,142.0
+2:49.0,152.0
+2:53.0,144.0
+2:52.0,152.0
+2:55.0,155.0
+2:60.0,136.0
+2:63.0,139.0
+2:54.0,124.0
+2:86.0,132.0
+2:85.0,115.0
+2:78.0,94.0
+2:74.0,96.0
+2:97.0,122.0
+2:98.0,116.0
+2:98.0,124.0
+2:99.0,119.0
+2:99.0,128.0
+2:85.0,96.0
+2:101.0,115.0
+2:108.0,111.0
+2:108.0,116.0
+2:111.0,126.0
+2:110.0,111.0
+2:115.0,117.0
+2:117.0,115.0
+
+C1
+2:15.0,75.0
+2:18.0,61.0
+2:13.0,69.0
+2:19.0,65.0
+2:10.0,59.0
+2:5.0,63.0
+2:9.0,77.0
+2:24.0,58.0
+2:22.0,74.0
+2:27.0,55.0
+2:27.0,72.0
+2:28.0,60.0
+2:28.0,76.0
+2:30.0,52.0
+2:31.0,60.0
+2:32.0,61.0
+2:36.0,72.0
+2:13.0,49.0
+2:4.0,53.0
+2:70.0,4.0
+2:77.0,12.0
+2:61.0,15.0
+2:69.0,15.0
+2:78.0,16.0
+2:66.0,18.0
+2:58.0,13.0
+2:64.0,20.0
+2:69.0,21.0
+2:66.0,23.0
+2:61.0,25.0
+2:76.0,27.0
+2:72.0,31.0
+2:64.0,30.0
+2:83.0,21.0
+2:12.0,88.0
+
+
+18:46:50.337 DEBUG MyProblem 120 describe - LSP
+

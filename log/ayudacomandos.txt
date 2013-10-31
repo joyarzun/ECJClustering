@@ -1,0 +1,9 @@
+#IMPRIMIR PRIMERA Y ULTIMA LINEA
+cat 5COR35NODOS/log_resumen.log | sed '$d' | sed -n '1p;$p'
+
+#SUMAR CANTIDAD DE NODOS DEL ARBOL
+cat 5COR15NODOS/log_resumen.log | grep "begin" | head -5 | tail -1 | tr -c a-zA-Z-_ '\n' | sed '/^$/d;/begin/d;/bundle/d;/gpbox/d;/chunk/d;/end/d' | sort | uniq -i -c | cut -d ' ' -f4 | paste -sd+ - | bc
+
+#IMPRIMIR LINEAS PARES O IMPARES
+cat 5COR35NODOS/log_resumen.log | grep "Error" | awk 'NR%2==0'
+

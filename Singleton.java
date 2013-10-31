@@ -8,6 +8,7 @@ public class Singleton{
 	public ArrayList<Double> no_agrupados;
 	public ArrayList<SuperConjunto> mejoresLCP;
 	public ArrayList<Conjunto> quedaLSP;
+	public ConjuntoInstancia instancias = new ConjuntoInstancia();
 	public boolean selogea = false;
 	public long Add_MindotElapsedTime = 0;
 	public long Add_MindotCounter = 0;
@@ -17,7 +18,14 @@ public class Singleton{
 	public long Join_CpElapsedTime = 0;
 	public long Move_MinElapsedTime = 0;
 	public long Move_MinCounter = 0;
-	public ConjuntoInstancia instancias = new ConjuntoInstancia();
+	public long Add_MincenterElapsedTime = 0;
+	public long Add_MincenterCounter = 0;
+	public long Add_MinceElapsedTime = 0;
+	public long Add_MinceCounter = 0;
+	public long Add_MaxceElapsedTime = 0;
+	public long Add_MaxceCounter = 0;
+	
+	
 	
 	
 	

@@ -76,12 +76,13 @@ public class Instancia implements Cloneable{
 	//ADD_MINCENTER: Toma un punto de LSP y lo inserta en el conjunto LCP donde la distancia al centro del conjunto, dada por LCC, sea mínima.
 	public Punto Add_Mincenter(){
 		if(LSP.size() == 0) return null;
-		Punto p = LSP.remove(0);
+		Punto p = LSP.get(0);
 		
 		if(LCP.size() == 0){//SI NO HAY CONJUNTOS SE CREA UNO
 			Conjunto c = new Conjunto();
 			c.add(p);
 			LCP.add(c);
+			LSP.remove(p);
 		}
 		else{//SI HAY ENTONCES SE INSERTA EN EL DE DISTANCIA MINIMA
 			this.updateLCC();
@@ -102,6 +103,7 @@ public class Instancia implements Cloneable{
 				}
 			}
 			LCP.get(index).add(p);
+			LSP.remove(p);
 			
 		}
 		
@@ -130,12 +132,13 @@ public class Instancia implements Cloneable{
 				index = i;
 			}
 		}
-		Punto p = LSP.remove(index);
+		Punto p = LSP.get(index);
 		
 		if(LCP.size() == 0){
 			Conjunto c = new Conjunto();
 			c.add(p);
 			LCP.add(c);
+			LSP.remove(p);
 		}
 		else{
 			Conjunto con_min = null;
@@ -156,7 +159,10 @@ public class Instancia implements Cloneable{
 					}
 				}
 			}
-			if(con_min != null) con_min.add(p);
+			if(con_min != null){
+				con_min.add(p);
+				LSP.remove(p);
+			}
 			else return null;
 		}
 		
@@ -186,12 +192,13 @@ public class Instancia implements Cloneable{
 				index = i;
 			}
 		}
-		Punto p = LSP.remove(index);
+		Punto p = LSP.get(index);
 		
 		if(LCP.size() == 0){
 			Conjunto c = new Conjunto();
 			c.add(p);
 			LCP.add(c);
+			LSP.remove(p);
 		}
 		else{
 			Conjunto con_min = null;
@@ -213,7 +220,10 @@ public class Instancia implements Cloneable{
 					}
 				}
 			}
-			if(con_min != null) con_min.add(p);
+			if(con_min != null){
+				con_min.add(p);
+				LSP.remove(p);
+			}
 			else return null;
 		}
 		
@@ -270,7 +280,7 @@ public class Instancia implements Cloneable{
 		}
 	}
 	
-	//MOVE_MIN: Se eligen dos conjunto (A, B), donde su CC es m�nima, se elige un punto de A tal que la distancia del punto al CC de B sea mínima. El punto se mueve al otro conjunto (B). Si el conjunto A queda vacío, se elimina.
+	//MOVE_MIN: Se eligen dos conjunto (A, B), donde su CC es mínima, se elige un punto de A tal que la distancia del punto al CC de B sea mínima. El punto se mueve al otro conjunto (B). Si el conjunto A queda vacío, se elimina.
 	public void Move_Min(){
 		updateLCC();
 		if(LCC.size() < 2) return;
@@ -337,15 +347,22 @@ public class Instancia implements Cloneable{
 		return fitness;
 	}
 	
-	//FITNESS CON MAXIMO DE PROFUNDIDAD
+	//FITNESS CON MAXIMO DE NODOS
 	public double fitness(long nodesize) {
 		double fitness = 1;
 		
-		long maxnodesize = 10;
+		long maxnodesize = 70;
+		long minnodesize = 30;
+		long prom = (maxnodesize + minnodesize)/2;
 		double nodesize_indice = 1;
-		if(nodesize > maxnodesize) maxnodesize = nodesize;
-		if(nodesize < 0) nodesize = maxnodesize;
-		nodesize_indice = (double)(nodesize-maxnodesize)/maxnodesize;
+		
+		if(nodesize <= maxnodesize && nodesize >= minnodesize) nodesize_indice = 0;
+		else{
+			nodesize_indice = Math.abs((double)(nodesize-prom))/prom;
+		}
+//		if(nodesize > maxnodesize) maxnodesize = nodesize;
+//		if(nodesize < 0) nodesize = maxnodesize;
+//		nodesize_indice = (double)(nodesize)/maxnodesize;
 		
 		//CALCULA INDICE SILUETA
 		double error = error();
@@ -353,7 +370,7 @@ public class Instancia implements Cloneable{
 		double no_agrupados = noAgrupados();
 		//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES 5
 		if(LCP.size() != 1) fitness = error*alfa + no_agrupados*beta + (1-alfa-beta)*nodesize_indice;
-		else fitness = 5;
+		else fitness = 1;
 		
 		return fitness;
 	}
@@ -371,13 +388,13 @@ public class Instancia implements Cloneable{
 			error = (1 - this.s_avg())/2;
 		}
 		catch (Exception e) {
-			error = 10;
+			error = 1;
 		}
 		
 		return error;
 	}
 	
-	public synchronized void tam(){
+	public void tam(){
 		int tam = LSP.size();
 		int tamLCP = 0;
 		for(Conjunto c : LCP){
@@ -508,7 +525,7 @@ public class Instancia implements Cloneable{
 		isLoad = false;
 	}
 	
-	public synchronized boolean load() throws Exception{
+	public boolean load() throws Exception{
 		if(!isLoad){
 			if(filename != null && path != null){
 				Scanner scanner = null;
@@ -560,7 +577,7 @@ public class Instancia implements Cloneable{
 		else return isLoad;
 	}
 	
-	public synchronized void recargar(){
+	public void recargar(){
 		if(isLoad){
 			LCP.clear();
 			LSP.clear();

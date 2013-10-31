@@ -11,17 +11,25 @@
     <File name="File2" fileName="./log_resumen.log" bufferedIO="true" append="true">
 	  <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
     </File>
+    <File name="File3" fileName="./log_estadistica.log" bufferedIO="true" append="true">
+	  <PatternLayout pattern="%d{HH:mm:ss.SSS} %msg%xEx%n"/>
+    </File>
+    <File name="FileAll" fileName="./log_all.log" bufferedIO="true" append="false">
+	  <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+    </File>
   </Appenders>
   <Loggers>
-    <!-- <Root level="trace">
-      <AppenderRef ref="File1"/>
-	   <AppenderRef ref="Console"/>
-    </Root> -->
+    <Root level="trace">
+	  <AppenderRef ref="FileAll"/>
+    </Root>
     <Logger name="logNormal" level="trace">
       <AppenderRef ref="File1"/>
     </Logger>
     <Logger name="logResumido" level="trace">
       <AppenderRef ref="File2"/>
+    </Logger>
+    <Logger name="logEstadistica" level="trace">
+      <AppenderRef ref="File3"/>
     </Logger>
   </Loggers>
 </Configuration>
