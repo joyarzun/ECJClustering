@@ -1,9 +1,16 @@
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.io.*;
 import java.lang.Math;
 
 
-public class Instancia implements Cloneable{
+public class Instancia implements Cloneable, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3982708521484437283L;
+	private double IS;
 	private String filename;
 	private String path;
 	private boolean isLoad;
@@ -11,7 +18,8 @@ public class Instancia implements Cloneable{
 	private int dimension;
 	private double alfa;
 	private double beta;
-	private Conjunto LSP = new Conjunto();//Lista de secuencia de puntos
+	private double gama;
+	private Conjunto LSP = new ConjuntoLog();//Lista de secuencia de puntos
 	private Conjunto LSP_ORI = new Conjunto();//Lista de secuencia de puntos
 	private SuperConjunto LCP = new SuperConjunto();//Lista de conjuntos de puntos
 	private Conjunto LCC = new Conjunto();//Lista de centros de conjuntos. Contiene por cada conjunto de LCP, una coordenada que es el centro geométrico de dicho conjunto
@@ -348,11 +356,15 @@ public class Instancia implements Cloneable{
 	}
 	
 	//FITNESS CON MAXIMO DE NODOS
-	public double fitness(long nodesize) {
+	public double fitness(long nodesize, int totaltime) {
 		double fitness = 1;
 		
-		long maxnodesize = 70;
-		long minnodesize = 30;
+		double time_indice = 1;
+		if(totaltime > 500) totaltime = 500;
+		time_indice = totaltime*1.0/500;
+		
+		long maxnodesize = 55;
+		long minnodesize = 15;
 		long prom = (maxnodesize + minnodesize)/2;
 		double nodesize_indice = 1;
 		
@@ -369,7 +381,7 @@ public class Instancia implements Cloneable{
 		//SI NO LOS AGRUPA TODOS
 		double no_agrupados = noAgrupados();
 		//SI HAY UN SOLO CONJUNTO ENTONCES EL ERROR ES 5
-		if(LCP.size() != 1) fitness = error*alfa + no_agrupados*beta + (1-alfa-beta)*nodesize_indice;
+		if(LCP.size() != 1) fitness = error*alfa + no_agrupados*beta + time_indice*gama + (1-alfa-beta-gama)*nodesize_indice;
 		else fitness = 1;
 		
 		return fitness;
@@ -385,7 +397,8 @@ public class Instancia implements Cloneable{
 	public double error() {
 		double error = 1;
 		try {
-			error = (1 - this.s_avg())/2;
+			if(hasSolution)	error = Math.abs(this.s_avg() - IS)/IS;
+			else error = (1 - this.s_avg())/2;
 		}
 		catch (Exception e) {
 			error = 1;
@@ -517,11 +530,12 @@ public class Instancia implements Cloneable{
 		isLoad = false;
 	}
 	
-	public Instancia(String path, String filename, double alfa, double beta){
+	public Instancia(String path, String filename, double alfa, double beta, double gama){
 		this.filename = filename;
 		this.path = path;
 		this.alfa = alfa;
 		this.beta = beta;
+		this.gama = gama;
 		isLoad = false;
 	}
 	
@@ -570,6 +584,34 @@ public class Instancia implements Cloneable{
 		    	}
 				
 				isLoad = true;
+				
+				if(hasSolution){
+					//CALCULO DEL INDICE SILUETA DE LA INSTANCIA
+					HashMap<String, Conjunto> map = new HashMap<String, Conjunto>();
+					for(Punto p : LSP){
+						if(map.containsKey(p.grupo)){
+							map.get(p.grupo).add(p);
+						}
+						else{
+							Conjunto c = new Conjunto();
+							c.add(p);
+							map.put(p.grupo, c);
+						}
+					}
+					
+					Iterator<String> keyIterator = map.keySet().iterator();
+					while(keyIterator.hasNext()){
+						String key = keyIterator.next();
+						LCP.add(map.get(key));
+					}
+					
+					IS = this.s_avg();
+					this.recargar();
+					System.out.println("IS de la instancia " + this.filename + " es " + this.IS);
+				}
+				
+				
+				
 				return isLoad;
 			}
 			else throw new Exception("Filename or Path is not defined");
@@ -581,7 +623,7 @@ public class Instancia implements Cloneable{
 		if(isLoad){
 			LCP.clear();
 			LSP.clear();
-			LSP = new Conjunto(LSP_ORI);
+			LSP = new ConjuntoLog(LSP_ORI);
 		}
 	}
 	
@@ -732,6 +774,7 @@ public class Instancia implements Cloneable{
 	}
 	
 	public String toString() {
+		if(hasSolution) return "Instancia " + filename + " IS:" + IS;
 		return "Instancia " + filename;
 	}
 

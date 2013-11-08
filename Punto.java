@@ -1,8 +1,13 @@
+import java.io.Serializable;
 import java.lang.Math;
 import java.util.Arrays;
 
-public class Punto
+public class Punto implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 617421321768364401L;
 	public double[] componente;
 	public String grupo;
 	public boolean hasSolution;

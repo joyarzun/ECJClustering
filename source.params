@@ -14,7 +14,7 @@ gp.fs.0 = ec.gp.GPFunctionSet
 gp.fs.0.name = f0
 
 # parametros
-generations = 51
+generations = 101
 pop.subpop.0.size = 1024
 breedthreads = autoevalthreads = auto
 #seed.0 = 123
@@ -51,5 +51,7 @@ gp.fs.0.func.11.nc = nc2
 eval.problem = MyProblem
 eval.problem.data = MyGPData
 stat = MySimpleStatistics
+checkpoint = true
+checkpoint-modulo = 10
 #pop.subpop.0.species.fitness = MyKozaFitness
 

@@ -3,7 +3,7 @@ class test_instancia {
 		String[] instancias = {"test.data"};
 		// String[] instancias = {"iris.data", "ruspini.data", "vowel.data"};
 		for (int a=0; a < instancias.length; a++) {
-			Instancia ins = new Instancia(".//dataset//", instancias[a], 0.5, 0.5);
+			Instancia ins = new Instancia(".//dataset//", instancias[a], 0.5, 0.5, 0);
 			try{
 				ins.load();
 			}

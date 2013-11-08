@@ -1,0 +1,20 @@
+Evaluated: T
+Fitness: f622575496|1.3509E-16|i3|
+Tree 0:
+ (If (Equal (While Add_Mince Add_Mince) (Equal (Equal (If (And Move_Min Create_Cp) Create_Cp) (Equal (And Move_Min Create_Cp) (And Move_Min Move_Min))) (And Create_Cp Add_Mince))) (Not (If (If Move_Min (If (And (And Add_Mincenter Add_Mincenter) (And Create_Cp Add_Mincenter)) (While (Not (And (And Add_Mincenter Add_Mincenter) (And (While Add_Mindot (And (And Move_Min Create_Cp) Join_Cp)) Add_Mincenter))) Add_Mince))) (And Move_Min Move_Min))))
+Evaluated: T
+Fitness: f1039528037|0.12008742|i1|
+Tree 0:
+ (If (And Add_Mince Create_Cp) (While Add_Mincenter (Equal (Equal Add_Mince Move_Min) (Equal (If (Equal (And (Or (Equal Add_Mince Move_Min) (Equal Add_Mince Move_Min)) Create_Cp) Move_Min) (If (Equal (If Add_Mincenter Add_Mindot) Move_Min) (Equal (And (If (If Add_Mincenter Add_Mindot) (And (If (If Add_Mincenter Add_Mindot) (While Add_Mindot Add_Mindot)) Create_Cp)) Create_Cp) Move_Min))) Add_Mince))))
+Evaluated: T
+Fitness: f1042181409|0.15471317|i1|
+Tree 0:
+ (Not (If (Or (While Add_Mince (Not Add_Mince)) Add_Mince) (If (Equal Create_Cp (Not Add_Mince)) (While (Or (Or (Not Add_Mince) (Not (Or Add_Mince (While Add_Mince Join_Cp)))) (While Add_Mince Join_Cp)) (If (While (While Add_Mince (Not Add_Mince)) (And (If (While Add_Mince Join_Cp) Create_Cp) (While Add_Mindot Add_Mindot))) (While Add_Mindot Add_Mindot))))))
+Evaluated: T
+Fitness: f1009608362|0.010583559|i2|
+Tree 0:
+ (Equal (And (Equal Join_Cp Add_Mindot) (And (Equal (Equal Create_Cp Create_Cp) (If Create_Cp Create_Cp)) (Equal (If Add_Mincenter Move_Min) (Or (Not (While Create_Cp (And Add_Mindot Join_Cp))) (Equal Move_Min (And Move_Min Add_Mincenter)))))) (If (And (Equal (And Move_Min Add_Mincenter) Join_Cp) (While Create_Cp (And Add_Mindot Join_Cp))) (And (Equal (Equal Join_Cp Add_Mindot) (Or Move_Min Create_Cp)) Create_Cp)))
+Evaluated: T
+Fitness: f1028175608|0.049002618|i2|
+Tree 0:
+ (And (Equal (Or (While (Or (Not (And Add_Mince Add_Mince)) (And (While Add_Mindot Move_Min) Add_Mindot)) (Equal (Not Create_Cp) (Equal (Equal (And Add_Mince (If (Or Add_Mindot (Equal (If Add_Mince Add_Mince) (Or Create_Cp Add_Mince))) Add_Mince)) Create_Cp) (Not (If Add_Mince Create_Cp))))) (Not Add_Mincenter)) (Not (Or Add_Mindot (Equal (If (Or Move_Min (Not Add_Mindot)) (Or Add_Mindot (Or Move_Min Join_Cp))) Create_Cp)))) Add_Mindot)

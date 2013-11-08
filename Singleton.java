@@ -1,8 +1,13 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 
-public class Singleton{
+public class Singleton implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 535195612641048928L;
 	public double fitness = Double.MAX_VALUE;
 	public ArrayList<Double> error;
 	public ArrayList<Double> no_agrupados;
@@ -42,10 +47,10 @@ public class Singleton{
         return instance;
     }
 
-	public void load(String instanciasPath, String[] instanciasFile, double alfa, double beta) {
+	public void load(String instanciasPath, String[] instanciasFile, double alfa, double beta, double gama) {
 		for (int a=0; a < instanciasFile.length; a++) {
 			try{
-				Instancia ins = new Instancia(instanciasPath, instanciasFile[a], alfa, beta);
+				Instancia ins = new Instancia(instanciasPath, instanciasFile[a], alfa, beta, gama);
 				ins.load();
 				instancias.add(ins);
 			}
@@ -54,5 +59,15 @@ public class Singleton{
 				System.exit(0);
 			}
 		}
+	}
+	
+	
+	public void reset(){
+		instancias = new ConjuntoInstancia();
+		fitness = Double.MAX_VALUE;
+		error = new ArrayList<Double>();
+		no_agrupados = new ArrayList<Double>();
+		mejoresLCP = new ArrayList<SuperConjunto>();
+		quedaLSP = new ArrayList<Conjunto>();
 	}
 }

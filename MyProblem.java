@@ -1,3 +1,9 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import ec.util.*;
@@ -37,9 +43,10 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 	    if (!(input instanceof MyGPData)) state.output.fatal("GPData class must subclass from " + MyGPData.class, base.push(P_DATA), null);
 
 	    
-	    sin.load(Contenedor.INSTANCIAS_PATH, Contenedor.instancias_file, Contenedor.alfa, Contenedor.beta);
-//	    contenedor = new Contenedor(sin.instancias);
-    }
+	    sin.load(Contenedor.INSTANCIAS_PATH, Contenedor.instancias_file, Contenedor.alfa, Contenedor.beta, Contenedor.gama);
+	    
+	    
+	}
 	
 	public void evaluate(final EvolutionState state,final Individual ind,final int subpopulation,final int threadnum)
     {
@@ -61,12 +68,17 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
         	ArrayList<Double> no_agrupados = new ArrayList<Double>();
 			
 			for(Instancia i : contenedor.instancias){
-				if(sin.selogea) logNormal.debug(i.toString());
+				if(sin.selogea){
+					logNormal.debug(i.toString());
+					System.out.println("\n" + i.toString());
+				}
 				instancia = i;
 				instancia.recargar();
+				long startTime = System.currentTimeMillis();
                 ((GPIndividual)ind).trees[0].child.eval(state,threadnum,input,stack,((GPIndividual)ind),this);
+                int totaltime = (int) (System.currentTimeMillis() - startTime);
 			
-				result = instancia.fitness(((GPIndividual)ind).size());
+				result = instancia.fitness(((GPIndividual)ind).size(), totaltime);
 				//GUARDAMOS COMO QUEDO, POR SI ES EL MEJOR
 				LCP_.add(new SuperConjunto(instancia.getLCP()));
 				LSP_.add(new Conjunto(instancia.getLSP()));
@@ -99,17 +111,33 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 		}
     }
 	
-	public synchronized void describe(EvolutionState state, Individual ind, int subpopulation,int threadnum, int log){
+	public void describe(EvolutionState state, Individual ind, int subpopulation,int threadnum, int log){
+		//GUARDO EL MEJOR IND
+		state.output.println("SAVE BEST",0);
+		PrintWriter printWriter = null;
+		try {
+			printWriter = new PrintWriter(new FileWriter("bestInd.txt", true));
+			((GPIndividual)ind).printIndividual(state, printWriter);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		printWriter.close();
+		
+		//SE EVALUA Y LOGEA LA INFO DEL MEJOR INDIVIDUO
 		ind.evaluated = false;
 		sin.selogea = true;
 		String tamNodo = "Tamaño del nodo: " + ((GPIndividual)ind).size();
 		
 		if(sin.selogea){
 			String treelatex = ((GPIndividual)ind).trees[0].child.makeLatexTree();
+			String treegraphviz = ((GPIndividual)ind).trees[0].child.makeGraphvizTree();
 			String fitness = ((GPIndividual)ind).fitness.fitnessToStringForHumans();
 			
-			logNormal.debug("\n" + fitness + "\n" + treelatex + "\n" + tamNodo + "\n");
-			logResumido.debug("\n" + fitness + "\n" + treelatex + "\n" + tamNodo + "\n");
+			logNormal.debug("\n" + fitness + "\n" + treelatex + "\n" + tamNodo + "\n" + treegraphviz + "\n");
+			logResumido.debug("\n" + fitness + "\n" + treelatex + "\n" + tamNodo + "\n" + treegraphviz + "\n");
 		}
 		
 		state.output.println(tamNodo, 0);
@@ -135,8 +163,38 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 		state.output.println("Move_Min " + (double)sin.Move_MinElapsedTime/sin.Move_MinCounter + " (" + sin.Move_MinElapsedTime +"|"+ (double)sin.Move_MinElapsedTime/totalElapsed +"|"+sin.Move_MinCounter + ")", 0);
 		
 		
-		this.evaluate(state, ind, subpopulation, threadnum);
+//		this.evaluate(state, ind, subpopulation, threadnum);
 		if(sin.selogea) logResumido.debug("Termino");
+		
+		//SI EL FITNEES ES MEJOR QUE 0.1 SE USA INSTANCIA DE VALIDACION
+		KozaFitness f = ((KozaFitness)((GPIndividual)ind).fitness);
+		if(f.standardizedFitness() <= 0.1){
+			state.output.println("\nUSANDO INSTANCIAS DE VALIDACION************\n",0);
+			logResumido.debug("\nUSANDO INSTANCIAS DE VALIDACION***************\n");
+			contenedor.loadvalidacion();
+			ind.evaluated = false;
+			sin.reset();
+			this.evaluate(state, ind, subpopulation, threadnum);
+			String fitness = ((GPIndividual)ind).fitness.fitnessToStringForHumans();
+			state.output.println("\n" + fitness + "\n" + tamNodo + "\n",0);
+			logResumido.debug("\n" + fitness + "\n" + tamNodo + "\n");
+			
+			for(int i = 0; i < sin.mejoresLCP.size(); i++){
+				state.output.println(contenedor.instancias.get(i).toString(), 0);
+				state.output.println("Error " + sin.error.get(i) + " ,ajustado " + sin.error.get(i)*Contenedor.alfa, 0);
+				state.output.println("No agrupados " + sin.no_agrupados.get(i) + " ,ajustado " + sin.no_agrupados.get(i)*Contenedor.beta, 0);
+				state.output.println("LCP\n" + sin.mejoresLCP.get(i).toString(), 0);
+				state.output.println("LSP\n" + sin.quedaLSP.get(i).toString(), 0);
+				if(sin.selogea){
+					logResumido.debug(contenedor.instancias.get(i).toString());
+					logResumido.debug("Error " + sin.error.get(i) + " ,ajustado " + sin.error.get(i)*Contenedor.alfa);
+					logResumido.debug("No agrupados " + sin.no_agrupados.get(i) + " ,ajustado " + sin.no_agrupados.get(i)*Contenedor.beta);
+					logResumido.debug("LCP\n" + sin.mejoresLCP.get(i).toString());
+					logResumido.debug("LSP\n" + sin.quedaLSP.get(i).toString());
+				}
+				
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -150,10 +208,27 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 	}
 	
 	
+//	public void prepareToEvaluate(final EvolutionState state, final int threadnum){
+//		if(state.generation == 0){
+//			GPIndividual ind = (GPIndividual) state.population.subpops[0].individuals[0];
+//		    LineNumberReader reader = null;
+//		    try {
+//				reader = new LineNumberReader(new FileReader("bestIndofAll.txt"));
+//				ind.readIndividual(state, reader);
+//				ind.evaluated = false;
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
+	
 	
 	
 	public void finishEvaluating(EvolutionState state, int thread){
 		if(thread == 0){
+			//LOG ESTADISTICA
 			MySimpleStatistics s = (MySimpleStatistics) state.statistics;
 			GPIndividual indbest = (GPIndividual) s.best_of_run[0];
 			GPIndividual indworst = (GPIndividual) s.worst_of_run[0];
@@ -161,15 +236,12 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 			String log = "";
 			if(indbest != null){
 				KozaFitness f = ((KozaFitness)indbest.fitness);
-//				System.out.println(f.standardizedFitness());
 				log += f.standardizedFitness();
 			}
 			if(indworst != null){
 				KozaFitness f = ((KozaFitness)indworst.fitness);
-//				System.out.println(f.standardizedFitness());
 				log += " " + f.standardizedFitness();
 			}
-//			System.out.println(avg_f);
 			if(state.generation != 0) log += " " + avg_f;
 			if(state.generation != 0) logEstadistica.info(log);
 		}
