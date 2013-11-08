@@ -15,7 +15,7 @@ clean:
 	rm -f bestInd.txt
 	
 compile:
-	javac *.java
+	javac -encoding UTF-8 *.java
 	
 cplog:
 	if [ ! -d "$(dirlog)/$(DL)" ]; then $(PRLOG); else echo "EL DIRECTORIO EXISTE"; fi
