@@ -1,17 +1,17 @@
-PR := java -Xmx2048m ec.Evolve -file source.params -p stat.gather-full=true -p gp.tree.print-style=s-expression
+PR := java -Xmx1024m ec.Evolve -file source.params -p stat.gather-full=true -p gp.tree.print-style=s-expression
 CP := mkdir checkpoint$$i; mv ec.*.gz checkpoint$$i
 dirlog := log
 DL := default
 PRLOG := mkdir "$(dirlog)/$(DL)"; mv out.stat "$(dirlog)/$(DL)"; mv log_* "$(dirlog)/$(DL)"; mv checkpoint* "$(dirlog)/$(DL)"; mv bestInd.txt "$(dirlog)/$(DL)"
 
-run: compile clean
-	for i in {1..30}; do $(PR); $(CP); done
+run: clean
+	for i in $$(seq 1 20); do $(PR); $(CP); done
 	
 clean:
 	rm -f log_resumen.log
 	rm -f log_estadistica.log
 	rm -f ec.*.gz
-	rm -rf checkpoint
+	rm -rf checkpoint*
 	rm -f bestInd.txt
 	
 compile:
@@ -22,3 +22,5 @@ cplog:
 
 test: compile
 	$(PR)
+aaa:
+	for i in $$(seq 5); do echo $$i; done
