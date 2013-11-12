@@ -4,8 +4,8 @@ dirlog := log
 DL := default
 PRLOG := mkdir "$(dirlog)/$(DL)"; mv out.stat "$(dirlog)/$(DL)"; mv log_* "$(dirlog)/$(DL)"; mv checkpoint* "$(dirlog)/$(DL)"; mv bestInd.txt "$(dirlog)/$(DL)"
 
-run: compile clean
-	for i in $$(seq 1 10); do $(PR); $(CP); done
+run: 
+	for i in $$(seq 11 20); do $(PR); $(CP); done
 	
 clean:
 	rm -f log_resumen.log
