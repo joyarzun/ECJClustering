@@ -5,7 +5,7 @@ DL := default
 PRLOG := mkdir "$(dirlog)/$(DL)"; mv out.stat "$(dirlog)/$(DL)"; mv log_* "$(dirlog)/$(DL)"; mv checkpoint* "$(dirlog)/$(DL)"; mv bestInd.txt "$(dirlog)/$(DL)"
 
 run: 
-	for i in $$(seq 11 20); do $(PR); $(CP); done
+	for i in $$(seq 1 1); do $(PR); $(CP); done
 	
 clean:
 	rm -f log_resumen.log

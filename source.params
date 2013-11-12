@@ -14,8 +14,8 @@ gp.fs.0 = ec.gp.GPFunctionSet
 gp.fs.0.name = f0
 
 # parametros
-generations = 101
-pop.subpop.0.size = 1024
+generations = 1
+pop.subpop.0.size = 1
 breedthreads = autoevalthreads = auto
 #seed.0 = 123
 #seed.1 = 1234

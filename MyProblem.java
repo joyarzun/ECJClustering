@@ -166,9 +166,9 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 //		this.evaluate(state, ind, subpopulation, threadnum);
 		if(sin.selogea) logResumido.debug("Termino");
 		
-		//SI EL FITNEES ES MEJOR QUE 0.1 SE USA INSTANCIA DE VALIDACION
+		//SI EL FITNEES ES MEJOR QUE 0.5 SE USA INSTANCIA DE VALIDACION
 		KozaFitness f = ((KozaFitness)((GPIndividual)ind).fitness);
-		if(f.standardizedFitness() <= 0.1){
+		if(f.standardizedFitness() <= 0.5){
 			state.output.println("\nUSANDO INSTANCIAS DE VALIDACION************\n",0);
 			logResumido.debug("\nUSANDO INSTANCIAS DE VALIDACION***************\n");
 			contenedor.loadvalidacion();
@@ -208,21 +208,21 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 	}
 	
 	
-//	public void prepareToEvaluate(final EvolutionState state, final int threadnum){
-//		if(state.generation == 0){
-//			GPIndividual ind = (GPIndividual) state.population.subpops[0].individuals[0];
-//		    LineNumberReader reader = null;
-//		    try {
-//				reader = new LineNumberReader(new FileReader("bestIndofAll.txt"));
-//				ind.readIndividual(state, reader);
-//				ind.evaluated = false;
-//			} catch (FileNotFoundException e) {
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	public void prepareToEvaluate(final EvolutionState state, final int threadnum){
+		if(state.generation == 0){
+			GPIndividual ind = (GPIndividual) state.population.subpops[0].individuals[0];
+		    LineNumberReader reader = null;
+		    try {
+				reader = new LineNumberReader(new FileReader("bestIndofAll.txt"));
+				ind.readIndividual(state, reader);
+				ind.evaluated = false;
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	
 	
