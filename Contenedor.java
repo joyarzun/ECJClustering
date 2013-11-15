@@ -8,11 +8,11 @@ public class Contenedor implements Serializable{
 	 */
 	private static final long serialVersionUID = -8976325939990349058L;
 	public static final String INSTANCIAS_PATH = ".//dataset//";
-//	public static final String[] instancias_file = {"synthetic//50B2C2.data", "synthetic//100B1C2.data", "synthetic//100B3C2.data"};
-	public static final String[] instancias_file = {"test.data", "ruspini.data" , "synthetic//150B2C3.data"};
+	public static final String[] instancias_file = {"synthetic//50B2C2.data", "synthetic//100B1C2.data", "synthetic//100B3C2.data"};
+//	public static final String[] instancias_file = {"test.data", "ruspini.data" , "synthetic//150B2C3.data"};
 //	public static final String[] validacion_file = {"test.data", "ruspini.data", "iris.data", "vowel.data","synthetic//150B2C3.data", "synthetic//200B2C4.data", "synthetic//1000B2C2.data","synthetic//3000B1C3.data", "synthetic//3000B3C2.data", "synthetic//5000B2C3.data", "synthetic//5000B3C4.data", "synthetic//10000B1C6.data", "synthetic//10000B2C7.data"};
-//	public static final String[] validacion_file = {"test.data", "ruspini.data", "iris.data", "vowel.data","synthetic//150B2C3.data", "synthetic//200B2C4.data", "synthetic//1000B2C2.data", "synthetic//1000B3C3.data"};
-	public static final String[] validacion_file = {"iris.data", "vowel.data", "synthetic//50B2C2.data","synthetic//100B1C2.data", "synthetic//100B3C2.data", "synthetic//200B2C4.data", "synthetic//1000B2C2.data", "synthetic//1000B3C3.data"};
+	public static final String[] validacion_file = {"test.data", "ruspini.data", "iris.data", "vowel.data","synthetic//150B2C3.data", "synthetic//200B2C4.data", "synthetic//1000B2C2.data", "synthetic//1000B3C3.data"};
+//	public static final String[] validacion_file = {"iris.data", "vowel.data", "synthetic//50B2C2.data","synthetic//100B1C2.data", "synthetic//100B3C2.data", "synthetic//200B2C4.data", "synthetic//1000B2C2.data", "synthetic//1000B3C3.data"};
 	private boolean isLoad = false;
 	public ConjuntoInstancia instancias = new ConjuntoInstancia();
 	public int cantidaderrores = 0;
