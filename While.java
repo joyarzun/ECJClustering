@@ -1,3 +1,6 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ec.*;
 import ec.gp.*;
 
@@ -6,6 +9,8 @@ public class While extends GPNode{
 	 * 
 	 */
 	private static final long serialVersionUID = -4002771103570543933L;
+	private static Logger logNormal = LogManager.getLogger("logNormal");
+	public Singleton sin = Singleton.getInstance();
 
 
 	public String toString() { return "While"; }
@@ -39,9 +44,11 @@ public class While extends GPNode{
 	        children[1].eval(state,thread,input,stack,individual,myproblem);
 			done = true;
 			
-			double error = myproblem.instancia.fitness();
+			
+			double error = (myproblem.instancia.error()+myproblem.instancia.noAgrupados())/2;
+			if(sin.selogea) logNormal.debug(counter + " ERROR ACTUAL: "+ error + " ANTERIOR: " + erroranterior + " EVAL: " + (Math.abs(error - erroranterior) <= 1E-12) + " " +myproblem.instancia.getLCP().get(0).size());
 			//SI EL ERROR NO CAMBIA
-			if (Math.abs(error - erroranterior) <= 1e-6){
+			if (Math.abs(error - erroranterior) <= 1E-12){
 				counter++;
 				if(counter == 2) break;
 			}

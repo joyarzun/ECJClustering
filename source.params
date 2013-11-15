@@ -2,7 +2,7 @@
 # Licensed under the Academic Free License version 3.0
 # See the file "LICENSE" for more information
 
-parent.0 = ../ecj/ec/gp/koza/koza.params
+parent.0 = /Users/jonnatan/ECJ/ecj/ec/gp/koza/koza.params
 
 # the next four items are already defined in koza.params, but we
 # put them here to be clear.
@@ -14,8 +14,8 @@ gp.fs.0 = ec.gp.GPFunctionSet
 gp.fs.0.name = f0
 
 # parametros
-generations = 1
-pop.subpop.0.size = 1
+generations = 101
+pop.subpop.0.size = 1024
 breedthreads = autoevalthreads = auto
 #seed.0 = 123
 #seed.1 = 1234

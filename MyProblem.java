@@ -208,21 +208,21 @@ public class MyProblem extends GPProblem implements SimpleProblemForm
 	}
 	
 	
-	public void prepareToEvaluate(final EvolutionState state, final int threadnum){
-		if(state.generation == 0){
-			GPIndividual ind = (GPIndividual) state.population.subpops[0].individuals[0];
-		    LineNumberReader reader = null;
-		    try {
-				reader = new LineNumberReader(new FileReader("bestIndofAll.txt"));
-				ind.readIndividual(state, reader);
-				ind.evaluated = false;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public void prepareToEvaluate(final EvolutionState state, final int threadnum){
+//		if(state.generation == 0){
+//			GPIndividual ind = (GPIndividual) state.population.subpops[0].individuals[0];
+//		    LineNumberReader reader = null;
+//		    try {
+//				reader = new LineNumberReader(new FileReader("bestIndofAll.txt"));
+//				ind.readIndividual(state, reader);
+//				ind.evaluated = false;
+//			} catch (FileNotFoundException e) {
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 	
 	
 	

@@ -10,6 +10,10 @@ run:
 clean:
 	rm -f log_resumen.log
 	rm -f log_estadistica.log
+	rm -f log_normal.log
+	rm -f log_all.log
+	rm -f out.stat
+	rm -f salida*
 	rm -f ec.*.gz
 	rm -rf checkpoint*
 	rm -f bestInd.txt
